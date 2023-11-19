@@ -1,0 +1,43 @@
+entity Categories {
+    idCategorie Long
+    nomCategorie String
+}
+
+entity Produits {
+    idProduit Long
+    nomProduit String
+    descriptionProduit String
+    prixProduit Long
+    imageProduit String
+}
+
+entity User {
+    id Long
+    login String
+    password String
+}
+
+entity Clients {
+    idClient Long
+    nom String
+    prenom String
+    adresse String
+    telephone String
+    email String
+}
+
+entity Commandes {
+    idCommande Long
+    dateCommande Instant
+}
+
+// Déclarer les relations
+relationship ManyToOne {
+    Produits{ Categories(idCategorie) } to Categories
+    Commandes{ Clients(idClient) } to Clients
+    Commandes{ Produits(idProduit) } to Produits
+}
+
+relationship OneToOne {
+    Clients{ User(id) } to User
+}

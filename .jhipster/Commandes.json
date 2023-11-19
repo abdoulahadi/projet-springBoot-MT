@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20231119195020",
+  "entityTableName": "commandes",
+  "fields": [
+    {
+      "fieldName": "idCommande",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "dateCommande",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Commandes",
+  "relationships": [
+    {
+      "otherEntityField": "idClient",
+      "otherEntityName": "clients",
+      "relationshipName": "clients",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "idProduit",
+      "otherEntityName": "produits",
+      "relationshipName": "produits",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no"
+}

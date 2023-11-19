@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20231119194720",
+  "entityTableName": "produits",
+  "fields": [
+    {
+      "fieldName": "idProduit",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "nomProduit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "descriptionProduit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prixProduit",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "imageProduit",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Produits",
+  "relationships": [
+    {
+      "otherEntityField": "idCategorie",
+      "otherEntityName": "categories",
+      "relationshipName": "categories",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no"
+}
