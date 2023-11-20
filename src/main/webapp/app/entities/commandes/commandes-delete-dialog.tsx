@@ -44,8 +44,8 @@ export const CommandesDeleteDialog = () => {
       <ModalHeader toggle={handleClose} data-cy="commandesDeleteDialogHeading">
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
-      <ModalBody id="jobMultiTiersApp.commandes.delete.question">
-        <Translate contentKey="jobMultiTiersApp.commandes.delete.question" interpolate={{ id: commandesEntity.id }}>
+      <ModalBody id="multitiersApp.commandes.delete.question">
+        <Translate contentKey="multitiersApp.commandes.delete.question" interpolate={{ id: commandesEntity.id }}>
           Are you sure you want to delete this Commandes?
         </Translate>
       </ModalBody>

@@ -7,19 +7,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link com.mycompany.myapp.domain.Commandes}.
@@ -50,23 +46,16 @@ public class CommandesResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<Commandes>> createCommandes(@RequestBody Commandes commandes) throws URISyntaxException {
+    public ResponseEntity<Commandes> createCommandes(@RequestBody Commandes commandes) throws URISyntaxException {
         log.debug("REST request to save Commandes : {}", commandes);
         if (commandes.getId() != null) {
             throw new BadRequestAlertException("A new commandes cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return commandesRepository
-            .save(commandes)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/commandes/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        Commandes result = commandesRepository.save(commandes);
+        return ResponseEntity
+            .created(new URI("/api/commandes/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -80,7 +69,7 @@ public class CommandesResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<Commandes>> updateCommandes(
+    public ResponseEntity<Commandes> updateCommandes(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Commandes commandes
     ) throws URISyntaxException {
@@ -92,23 +81,15 @@ public class CommandesResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return commandesRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!commandesRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return commandesRepository
-                    .save(commandes)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        Commandes result = commandesRepository.save(commandes);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, commandes.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -123,7 +104,7 @@ public class CommandesResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<Commandes>> partialUpdateCommandes(
+    public ResponseEntity<Commandes> partialUpdateCommandes(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Commandes commandes
     ) throws URISyntaxException {
@@ -135,33 +116,25 @@ public class CommandesResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return commandesRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+        if (!commandesRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        Optional<Commandes> result = commandesRepository
+            .findById(commandes.getId())
+            .map(existingCommandes -> {
+                if (commandes.getDateCommande() != null) {
+                    existingCommandes.setDateCommande(commandes.getDateCommande());
                 }
 
-                Mono<Commandes> result = commandesRepository
-                    .findById(commandes.getId())
-                    .map(existingCommandes -> {
-                        if (commandes.getDateCommande() != null) {
-                            existingCommandes.setDateCommande(commandes.getDateCommande());
-                        }
+                return existingCommandes;
+            })
+            .map(commandesRepository::save);
 
-                        return existingCommandes;
-                    })
-                    .flatMap(commandesRepository::save);
-
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, commandes.getId().toString())
+        );
     }
 
     /**
@@ -169,19 +142,9 @@ public class CommandesResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of commandes in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<List<Commandes>> getAllCommandes() {
+    @GetMapping("")
+    public List<Commandes> getAllCommandes() {
         log.debug("REST request to get all Commandes");
-        return commandesRepository.findAll().collectList();
-    }
-
-    /**
-     * {@code GET  /commandes} : get all the commandes as a stream.
-     * @return the {@link Flux} of commandes.
-     */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_NDJSON_VALUE)
-    public Flux<Commandes> getAllCommandesAsStream() {
-        log.debug("REST request to get all Commandes as a stream");
         return commandesRepository.findAll();
     }
 
@@ -192,9 +155,9 @@ public class CommandesResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the commandes, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Commandes>> getCommandes(@PathVariable Long id) {
+    public ResponseEntity<Commandes> getCommandes(@PathVariable Long id) {
         log.debug("REST request to get Commandes : {}", id);
-        Mono<Commandes> commandes = commandesRepository.findById(id);
+        Optional<Commandes> commandes = commandesRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(commandes);
     }
 
@@ -205,17 +168,12 @@ public class CommandesResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteCommandes(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCommandes(@PathVariable Long id) {
         log.debug("REST request to delete Commandes : {}", id);
-        return commandesRepository
-            .deleteById(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        commandesRepository.deleteById(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

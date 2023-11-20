@@ -66,16 +66,16 @@ export const Produits = () => {
   return (
     <div>
       <h2 id="produits-heading" data-cy="ProduitsHeading">
-        <Translate contentKey="jobMultiTiersApp.produits.home.title">Produits</Translate>
+        <Translate contentKey="multitiersApp.produits.home.title">Produits</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="jobMultiTiersApp.produits.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="multitiersApp.produits.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/produits/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="jobMultiTiersApp.produits.home.createLabel">Create new Produits</Translate>
+            <Translate contentKey="multitiersApp.produits.home.createLabel">Create new Produits</Translate>
           </Link>
         </div>
       </h2>
@@ -85,27 +85,26 @@ export const Produits = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="jobMultiTiersApp.produits.id">ID</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  <Translate contentKey="multitiersApp.produits.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('nomProduit')}>
-                  <Translate contentKey="jobMultiTiersApp.produits.nomProduit">Nom Produit</Translate>{' '}
+                  <Translate contentKey="multitiersApp.produits.nomProduit">Nom Produit</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('nomProduit')} />
                 </th>
                 <th className="hand" onClick={sort('descriptionProduit')}>
-                  <Translate contentKey="jobMultiTiersApp.produits.descriptionProduit">Description Produit</Translate>{' '}
+                  <Translate contentKey="multitiersApp.produits.descriptionProduit">Description Produit</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('descriptionProduit')} />
                 </th>
                 <th className="hand" onClick={sort('prixProduit')}>
-                  <Translate contentKey="jobMultiTiersApp.produits.prixProduit">Prix Produit</Translate>{' '}
+                  <Translate contentKey="multitiersApp.produits.prixProduit">Prix Produit</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('prixProduit')} />
                 </th>
                 <th className="hand" onClick={sort('imageProduit')}>
-                  <Translate contentKey="jobMultiTiersApp.produits.imageProduit">Image Produit</Translate>{' '}
+                  <Translate contentKey="multitiersApp.produits.imageProduit">Image Produit</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('imageProduit')} />
                 </th>
                 <th>
-                  <Translate contentKey="jobMultiTiersApp.produits.categories">Categories</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="multitiersApp.produits.categories">Categories</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -157,7 +156,7 @@ export const Produits = () => {
         ) : (
           !loading && (
             <div className="alert alert-warning">
-              <Translate contentKey="jobMultiTiersApp.produits.home.notFound">No Produits found</Translate>
+              <Translate contentKey="multitiersApp.produits.home.notFound">No Produits found</Translate>
             </div>
           )
         )}

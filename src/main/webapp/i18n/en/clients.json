@@ -1,5 +1,5 @@
 {
-  "jobMultiTiersApp": {
+  "multitiersApp": {
     "clients": {
       "home": {
         "title": "Clients",
@@ -23,7 +23,7 @@
       "adresse": "Adresse",
       "telephone": "Telephone",
       "email": "Email",
-      "idUser": "Id User"
+      "user": "User"
     }
   }
 }

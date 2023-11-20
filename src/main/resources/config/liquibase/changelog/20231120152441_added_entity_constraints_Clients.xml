@@ -6,13 +6,13 @@
     <!--
         Added the constraints for entity Clients.
     -->
-    <changeSet id="20231119194920-2" author="jhipster">
+    <changeSet id="20231120152441-2" author="jhipster">
 
-        <!-- <addForeignKeyConstraint baseColumnNames="id_user"
+        <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="clients"
                                  constraintName="fk_clients__user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"
-                                 /> -->
+                                 />
     </changeSet>
 </databaseChangeLog>

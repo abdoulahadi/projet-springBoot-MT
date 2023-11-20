@@ -66,16 +66,16 @@ export const Clients = () => {
   return (
     <div>
       <h2 id="clients-heading" data-cy="ClientsHeading">
-        <Translate contentKey="jobMultiTiersApp.clients.home.title">Clients</Translate>
+        <Translate contentKey="multitiersApp.clients.home.title">Clients</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="jobMultiTiersApp.clients.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="multitiersApp.clients.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/clients/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="jobMultiTiersApp.clients.home.createLabel">Create new Clients</Translate>
+            <Translate contentKey="multitiersApp.clients.home.createLabel">Create new Clients</Translate>
           </Link>
         </div>
       </h2>
@@ -85,31 +85,29 @@ export const Clients = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="jobMultiTiersApp.clients.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  <Translate contentKey="multitiersApp.clients.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('nom')}>
-                  <Translate contentKey="jobMultiTiersApp.clients.nom">Nom</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('nom')} />
+                  <Translate contentKey="multitiersApp.clients.nom">Nom</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('nom')} />
                 </th>
                 <th className="hand" onClick={sort('prenom')}>
-                  <Translate contentKey="jobMultiTiersApp.clients.prenom">Prenom</Translate>{' '}
+                  <Translate contentKey="multitiersApp.clients.prenom">Prenom</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('prenom')} />
                 </th>
                 <th className="hand" onClick={sort('adresse')}>
-                  <Translate contentKey="jobMultiTiersApp.clients.adresse">Adresse</Translate>{' '}
+                  <Translate contentKey="multitiersApp.clients.adresse">Adresse</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('adresse')} />
                 </th>
                 <th className="hand" onClick={sort('telephone')}>
-                  <Translate contentKey="jobMultiTiersApp.clients.telephone">Telephone</Translate>{' '}
+                  <Translate contentKey="multitiersApp.clients.telephone">Telephone</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('telephone')} />
                 </th>
                 <th className="hand" onClick={sort('email')}>
-                  <Translate contentKey="jobMultiTiersApp.clients.email">Email</Translate>{' '}
+                  <Translate contentKey="multitiersApp.clients.email">Email</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
                 </th>
-                <th className="hand" onClick={sort('idUser')}>
-                  <Translate contentKey="jobMultiTiersApp.clients.idUser">Id User</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('idUser')} />
+                <th>
+                  <Translate contentKey="multitiersApp.clients.user">User</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -127,7 +125,7 @@ export const Clients = () => {
                   <td>{clients.adresse}</td>
                   <td>{clients.telephone}</td>
                   <td>{clients.email}</td>
-                  <td>{clients.idUser}</td>
+                  <td>{clients.user ? clients.user.id : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/clients/${clients.id}`} color="info" size="sm" data-cy="entityDetailsButton">
@@ -162,7 +160,7 @@ export const Clients = () => {
         ) : (
           !loading && (
             <div className="alert alert-warning">
-              <Translate contentKey="jobMultiTiersApp.clients.home.notFound">No Clients found</Translate>
+              <Translate contentKey="multitiersApp.clients.home.notFound">No Clients found</Translate>
             </div>
           )
         )}

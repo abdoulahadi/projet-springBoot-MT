@@ -7,19 +7,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.reactive.ResponseUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link com.mycompany.myapp.domain.Clients}.
@@ -50,23 +46,16 @@ public class ClientsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<Clients>> createClients(@RequestBody Clients clients) throws URISyntaxException {
+    public ResponseEntity<Clients> createClients(@RequestBody Clients clients) throws URISyntaxException {
         log.debug("REST request to save Clients : {}", clients);
         if (clients.getId() != null) {
             throw new BadRequestAlertException("A new clients cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        return clientsRepository
-            .save(clients)
-            .map(result -> {
-                try {
-                    return ResponseEntity
-                        .created(new URI("/api/clients/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        Clients result = clientsRepository.save(clients);
+        return ResponseEntity
+            .created(new URI("/api/clients/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -80,10 +69,8 @@ public class ClientsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<Clients>> updateClients(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody Clients clients
-    ) throws URISyntaxException {
+    public ResponseEntity<Clients> updateClients(@PathVariable(value = "id", required = false) final Long id, @RequestBody Clients clients)
+        throws URISyntaxException {
         log.debug("REST request to update Clients : {}, {}", id, clients);
         if (clients.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -92,23 +79,15 @@ public class ClientsResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return clientsRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+        if (!clientsRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
-                return clientsRepository
-                    .save(clients)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(result ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                            .body(result)
-                    );
-            });
+        Clients result = clientsRepository.save(clients);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, clients.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -123,7 +102,7 @@ public class ClientsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public Mono<ResponseEntity<Clients>> partialUpdateClients(
+    public ResponseEntity<Clients> partialUpdateClients(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Clients clients
     ) throws URISyntaxException {
@@ -135,48 +114,37 @@ public class ClientsResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        return clientsRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+        if (!clientsRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        Optional<Clients> result = clientsRepository
+            .findById(clients.getId())
+            .map(existingClients -> {
+                if (clients.getNom() != null) {
+                    existingClients.setNom(clients.getNom());
+                }
+                if (clients.getPrenom() != null) {
+                    existingClients.setPrenom(clients.getPrenom());
+                }
+                if (clients.getAdresse() != null) {
+                    existingClients.setAdresse(clients.getAdresse());
+                }
+                if (clients.getTelephone() != null) {
+                    existingClients.setTelephone(clients.getTelephone());
+                }
+                if (clients.getEmail() != null) {
+                    existingClients.setEmail(clients.getEmail());
                 }
 
-                Mono<Clients> result = clientsRepository
-                    .findById(clients.getId())
-                    .map(existingClients -> {
-                        if (clients.getNom() != null) {
-                            existingClients.setNom(clients.getNom());
-                        }
-                        if (clients.getPrenom() != null) {
-                            existingClients.setPrenom(clients.getPrenom());
-                        }
-                        if (clients.getAdresse() != null) {
-                            existingClients.setAdresse(clients.getAdresse());
-                        }
-                        if (clients.getTelephone() != null) {
-                            existingClients.setTelephone(clients.getTelephone());
-                        }
-                        if (clients.getEmail() != null) {
-                            existingClients.setEmail(clients.getEmail());
-                        }
-                        if (clients.getIdUser() != null) {
-                            existingClients.setIdUser(clients.getIdUser());
-                        }
+                return existingClients;
+            })
+            .map(clientsRepository::save);
 
-                        return existingClients;
-                    })
-                    .flatMap(clientsRepository::save);
-
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(res ->
-                        ResponseEntity
-                            .ok()
-                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
-                            .body(res)
-                    );
-            });
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, clients.getId().toString())
+        );
     }
 
     /**
@@ -184,19 +152,9 @@ public class ClientsResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of clients in body.
      */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<List<Clients>> getAllClients() {
+    @GetMapping("")
+    public List<Clients> getAllClients() {
         log.debug("REST request to get all Clients");
-        return clientsRepository.findAll().collectList();
-    }
-
-    /**
-     * {@code GET  /clients} : get all the clients as a stream.
-     * @return the {@link Flux} of clients.
-     */
-    @GetMapping(value = "", produces = MediaType.APPLICATION_NDJSON_VALUE)
-    public Flux<Clients> getAllClientsAsStream() {
-        log.debug("REST request to get all Clients as a stream");
         return clientsRepository.findAll();
     }
 
@@ -207,9 +165,9 @@ public class ClientsResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the clients, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Clients>> getClients(@PathVariable Long id) {
+    public ResponseEntity<Clients> getClients(@PathVariable Long id) {
         log.debug("REST request to get Clients : {}", id);
-        Mono<Clients> clients = clientsRepository.findById(id);
+        Optional<Clients> clients = clientsRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(clients);
     }
 
@@ -220,17 +178,12 @@ public class ClientsResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteClients(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteClients(@PathVariable Long id) {
         log.debug("REST request to delete Clients : {}", id);
-        return clientsRepository
-            .deleteById(id)
-            .then(
-                Mono.just(
-                    ResponseEntity
-                        .noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                        .build()
-                )
-            );
+        clientsRepository.deleteById(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

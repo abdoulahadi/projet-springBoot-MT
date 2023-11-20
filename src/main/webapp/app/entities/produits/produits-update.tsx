@@ -81,8 +81,8 @@ export const ProduitsUpdate = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="jobMultiTiersApp.produits.home.createOrEditLabel" data-cy="ProduitsCreateUpdateHeading">
-            <Translate contentKey="jobMultiTiersApp.produits.home.createOrEditLabel">Create or edit a Produits</Translate>
+          <h2 id="multitiersApp.produits.home.createOrEditLabel" data-cy="ProduitsCreateUpdateHeading">
+            <Translate contentKey="multitiersApp.produits.home.createOrEditLabel">Create or edit a Produits</Translate>
           </h2>
         </Col>
       </Row>
@@ -103,28 +103,28 @@ export const ProduitsUpdate = () => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('jobMultiTiersApp.produits.nomProduit')}
+                label={translate('multitiersApp.produits.nomProduit')}
                 id="produits-nomProduit"
                 name="nomProduit"
                 data-cy="nomProduit"
                 type="text"
               />
               <ValidatedField
-                label={translate('jobMultiTiersApp.produits.descriptionProduit')}
+                label={translate('multitiersApp.produits.descriptionProduit')}
                 id="produits-descriptionProduit"
                 name="descriptionProduit"
                 data-cy="descriptionProduit"
                 type="text"
               />
               <ValidatedField
-                label={translate('jobMultiTiersApp.produits.prixProduit')}
+                label={translate('multitiersApp.produits.prixProduit')}
                 id="produits-prixProduit"
                 name="prixProduit"
                 data-cy="prixProduit"
                 type="text"
               />
               <ValidatedField
-                label={translate('jobMultiTiersApp.produits.imageProduit')}
+                label={translate('multitiersApp.produits.imageProduit')}
                 id="produits-imageProduit"
                 name="imageProduit"
                 data-cy="imageProduit"
@@ -134,7 +134,7 @@ export const ProduitsUpdate = () => {
                 id="produits-categories"
                 name="categories"
                 data-cy="categories"
-                label={translate('jobMultiTiersApp.produits.categories')}
+                label={translate('multitiersApp.produits.categories')}
                 type="select"
               >
                 <option value="" key="0" />

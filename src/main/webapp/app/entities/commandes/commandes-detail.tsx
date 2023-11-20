@@ -23,7 +23,7 @@ export const CommandesDetail = () => {
     <Row>
       <Col md="8">
         <h2 data-cy="commandesDetailsHeading">
-          <Translate contentKey="jobMultiTiersApp.commandes.detail.title">Commandes</Translate>
+          <Translate contentKey="multitiersApp.commandes.detail.title">Commandes</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -34,18 +34,18 @@ export const CommandesDetail = () => {
           <dd>{commandesEntity.id}</dd>
           <dt>
             <span id="dateCommande">
-              <Translate contentKey="jobMultiTiersApp.commandes.dateCommande">Date Commande</Translate>
+              <Translate contentKey="multitiersApp.commandes.dateCommande">Date Commande</Translate>
             </span>
           </dt>
           <dd>
             {commandesEntity.dateCommande ? <TextFormat value={commandesEntity.dateCommande} type="date" format={APP_DATE_FORMAT} /> : null}
           </dd>
           <dt>
-            <Translate contentKey="jobMultiTiersApp.commandes.clients">Clients</Translate>
+            <Translate contentKey="multitiersApp.commandes.clients">Clients</Translate>
           </dt>
           <dd>{commandesEntity.clients ? commandesEntity.clients.id : ''}</dd>
           <dt>
-            <Translate contentKey="jobMultiTiersApp.commandes.produits">Produits</Translate>
+            <Translate contentKey="multitiersApp.commandes.produits">Produits</Translate>
           </dt>
           <dd>{commandesEntity.produits ? commandesEntity.produits.id : ''}</dd>
         </dl>

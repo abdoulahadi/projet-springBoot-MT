@@ -71,8 +71,8 @@ export const CategoriesUpdate = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="jobMultiTiersApp.categories.home.createOrEditLabel" data-cy="CategoriesCreateUpdateHeading">
-            <Translate contentKey="jobMultiTiersApp.categories.home.createOrEditLabel">Create or edit a Categories</Translate>
+          <h2 id="multitiersApp.categories.home.createOrEditLabel" data-cy="CategoriesCreateUpdateHeading">
+            <Translate contentKey="multitiersApp.categories.home.createOrEditLabel">Create or edit a Categories</Translate>
           </h2>
         </Col>
       </Row>
@@ -93,7 +93,7 @@ export const CategoriesUpdate = () => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('jobMultiTiersApp.categories.nomCategorie')}
+                label={translate('multitiersApp.categories.nomCategorie')}
                 id="categories-nomCategorie"
                 name="nomCategorie"
                 data-cy="nomCategorie"

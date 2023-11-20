@@ -67,16 +67,16 @@ export const Commandes = () => {
   return (
     <div>
       <h2 id="commandes-heading" data-cy="CommandesHeading">
-        <Translate contentKey="jobMultiTiersApp.commandes.home.title">Commandes</Translate>
+        <Translate contentKey="multitiersApp.commandes.home.title">Commandes</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="jobMultiTiersApp.commandes.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="multitiersApp.commandes.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/commandes/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="jobMultiTiersApp.commandes.home.createLabel">Create new Commandes</Translate>
+            <Translate contentKey="multitiersApp.commandes.home.createLabel">Create new Commandes</Translate>
           </Link>
         </div>
       </h2>
@@ -86,18 +86,17 @@ export const Commandes = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="jobMultiTiersApp.commandes.id">ID</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  <Translate contentKey="multitiersApp.commandes.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('dateCommande')}>
-                  <Translate contentKey="jobMultiTiersApp.commandes.dateCommande">Date Commande</Translate>{' '}
+                  <Translate contentKey="multitiersApp.commandes.dateCommande">Date Commande</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('dateCommande')} />
                 </th>
                 <th>
-                  <Translate contentKey="jobMultiTiersApp.commandes.clients">Clients</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="multitiersApp.commandes.clients">Clients</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  <Translate contentKey="jobMultiTiersApp.commandes.produits">Produits</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="multitiersApp.commandes.produits">Produits</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -149,7 +148,7 @@ export const Commandes = () => {
         ) : (
           !loading && (
             <div className="alert alert-warning">
-              <Translate contentKey="jobMultiTiersApp.commandes.home.notFound">No Commandes found</Translate>
+              <Translate contentKey="multitiersApp.commandes.home.notFound">No Commandes found</Translate>
             </div>
           )
         )}

@@ -1,41 +1,40 @@
 package com.mycompany.myapp.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Produits.
  */
-@Table("produits")
+@Entity
+@Table(name = "produits")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Produits implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("nom_produit")
+    @Column(name = "nom_produit")
     private String nomProduit;
 
-    @Column("description_produit")
+    @Column(name = "description_produit")
     private String descriptionProduit;
 
-    @Column("prix_produit")
+    @Column(name = "prix_produit")
     private Long prixProduit;
 
-    @Column("image_produit")
+    @Column(name = "image_produit")
     private String imageProduit;
 
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY)
     private Categories categories;
-
-    @Column("categories_id")
-    private Long categoriesId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -110,20 +109,11 @@ public class Produits implements Serializable {
 
     public void setCategories(Categories categories) {
         this.categories = categories;
-        this.categoriesId = categories != null ? categories.getId() : null;
     }
 
     public Produits categories(Categories categories) {
         this.setCategories(categories);
         return this;
-    }
-
-    public Long getCategoriesId() {
-        return this.categoriesId;
-    }
-
-    public void setCategoriesId(Long categories) {
-        this.categoriesId = categories;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

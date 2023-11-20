@@ -22,7 +22,7 @@ export const CategoriesDetail = () => {
     <Row>
       <Col md="8">
         <h2 data-cy="categoriesDetailsHeading">
-          <Translate contentKey="jobMultiTiersApp.categories.detail.title">Categories</Translate>
+          <Translate contentKey="multitiersApp.categories.detail.title">Categories</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -33,7 +33,7 @@ export const CategoriesDetail = () => {
           <dd>{categoriesEntity.id}</dd>
           <dt>
             <span id="nomCategorie">
-              <Translate contentKey="jobMultiTiersApp.categories.nomCategorie">Nom Categorie</Translate>
+              <Translate contentKey="multitiersApp.categories.nomCategorie">Nom Categorie</Translate>
             </span>
           </dt>
           <dd>{categoriesEntity.nomCategorie}</dd>

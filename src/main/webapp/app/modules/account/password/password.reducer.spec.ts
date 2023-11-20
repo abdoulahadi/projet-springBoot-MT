@@ -8,7 +8,7 @@ import password, { savePassword, reset } from './password.reducer';
 
 describe('Password reducer tests', () => {
   beforeAll(() => {
-    TranslatorContext.registerTranslations('en', {});
+    TranslatorContext.registerTranslations('fr', {});
   });
 
   describe('Common tests', () => {

@@ -1,3 +1,5 @@
+import { IUser } from 'app/shared/model/user.model';
+
 export interface IClients {
   id?: number;
   nom?: string | null;
@@ -5,7 +7,7 @@ export interface IClients {
   adresse?: string | null;
   telephone?: string | null;
   email?: string | null;
-  idUser?: number | null;
+  user?: IUser | null;
 }
 
 export const defaultValue: Readonly<IClients> = {};

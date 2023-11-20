@@ -22,7 +22,7 @@ export const ClientsDetail = () => {
     <Row>
       <Col md="8">
         <h2 data-cy="clientsDetailsHeading">
-          <Translate contentKey="jobMultiTiersApp.clients.detail.title">Clients</Translate>
+          <Translate contentKey="multitiersApp.clients.detail.title">Clients</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -33,40 +33,38 @@ export const ClientsDetail = () => {
           <dd>{clientsEntity.id}</dd>
           <dt>
             <span id="nom">
-              <Translate contentKey="jobMultiTiersApp.clients.nom">Nom</Translate>
+              <Translate contentKey="multitiersApp.clients.nom">Nom</Translate>
             </span>
           </dt>
           <dd>{clientsEntity.nom}</dd>
           <dt>
             <span id="prenom">
-              <Translate contentKey="jobMultiTiersApp.clients.prenom">Prenom</Translate>
+              <Translate contentKey="multitiersApp.clients.prenom">Prenom</Translate>
             </span>
           </dt>
           <dd>{clientsEntity.prenom}</dd>
           <dt>
             <span id="adresse">
-              <Translate contentKey="jobMultiTiersApp.clients.adresse">Adresse</Translate>
+              <Translate contentKey="multitiersApp.clients.adresse">Adresse</Translate>
             </span>
           </dt>
           <dd>{clientsEntity.adresse}</dd>
           <dt>
             <span id="telephone">
-              <Translate contentKey="jobMultiTiersApp.clients.telephone">Telephone</Translate>
+              <Translate contentKey="multitiersApp.clients.telephone">Telephone</Translate>
             </span>
           </dt>
           <dd>{clientsEntity.telephone}</dd>
           <dt>
             <span id="email">
-              <Translate contentKey="jobMultiTiersApp.clients.email">Email</Translate>
+              <Translate contentKey="multitiersApp.clients.email">Email</Translate>
             </span>
           </dt>
           <dd>{clientsEntity.email}</dd>
           <dt>
-            <span id="idUser">
-              <Translate contentKey="jobMultiTiersApp.clients.idUser">Id User</Translate>
-            </span>
+            <Translate contentKey="multitiersApp.clients.user">User</Translate>
           </dt>
-          <dd>{clientsEntity.idUser}</dd>
+          <dd>{clientsEntity.user ? clientsEntity.user.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/clients" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

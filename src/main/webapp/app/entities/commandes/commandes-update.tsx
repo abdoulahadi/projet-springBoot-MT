@@ -88,8 +88,8 @@ export const CommandesUpdate = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="jobMultiTiersApp.commandes.home.createOrEditLabel" data-cy="CommandesCreateUpdateHeading">
-            <Translate contentKey="jobMultiTiersApp.commandes.home.createOrEditLabel">Create or edit a Commandes</Translate>
+          <h2 id="multitiersApp.commandes.home.createOrEditLabel" data-cy="CommandesCreateUpdateHeading">
+            <Translate contentKey="multitiersApp.commandes.home.createOrEditLabel">Create or edit a Commandes</Translate>
           </h2>
         </Col>
       </Row>
@@ -110,7 +110,7 @@ export const CommandesUpdate = () => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('jobMultiTiersApp.commandes.dateCommande')}
+                label={translate('multitiersApp.commandes.dateCommande')}
                 id="commandes-dateCommande"
                 name="dateCommande"
                 data-cy="dateCommande"
@@ -121,7 +121,7 @@ export const CommandesUpdate = () => {
                 id="commandes-clients"
                 name="clients"
                 data-cy="clients"
-                label={translate('jobMultiTiersApp.commandes.clients')}
+                label={translate('multitiersApp.commandes.clients')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -137,7 +137,7 @@ export const CommandesUpdate = () => {
                 id="commandes-produits"
                 name="produits"
                 data-cy="produits"
-                label={translate('jobMultiTiersApp.commandes.produits')}
+                label={translate('multitiersApp.commandes.produits')}
                 type="select"
               >
                 <option value="" key="0" />

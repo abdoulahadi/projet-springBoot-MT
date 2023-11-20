@@ -1,8 +1,8 @@
 {
-  "name": "job-multi-tiers",
+  "name": "multitiers",
   "version": "0.0.1-SNAPSHOT",
   "private": true,
-  "description": "Description for Job Multi Tiers",
+  "description": "Description for Multitiers",
   "license": "UNLICENSED",
   "scripts": {
     "app:start": "./mvnw",

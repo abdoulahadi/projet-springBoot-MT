@@ -30,10 +30,22 @@ spring:
   jackson:
     serialization:
       indent-output: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/multitiers?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true
+    username: root
+    password:
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
-    url: jdbc:mysql://localhost:3306/jobMultiTiers?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true
   mail:
     host: localhost
     port: 25
@@ -41,10 +53,6 @@ spring:
     password:
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
-  r2dbc:
-    url: r2dbc:mysql://localhost:3306/jobMultiTiers?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true
-    username: root
-    password:
   thymeleaf:
     cache: false
 
@@ -58,6 +66,10 @@ server:
 # ===================================================================
 
 jhipster:
+  cache: # Cache configuration
+    ehcache: # Ehcache configuration
+      time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
+      max-entries: 100 # Number of objects in each cache entry
   # CORS is only enabled by default with the "dev" profile
   cors:
     # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
@@ -73,7 +85,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
-        base64-secret: MWMwYjk0ZWQ2YzRhMDk5NjFkMWUwY2QzN2Y2ZDMzMjU5ZmU3OTg4NTkwOWVmMTBiNGM5ZWE4ZjU1ZWFjOTc1MDExY2VmMTFjZWFjOTVjYzY1ZDE1MjQxNWRmNmY5ZDgzMzE5MWZiZjAxODY4MWQxN2NjNDQ3OWZmNjhhYzM2MGQ=
+        base64-secret: ODczNDEyMTkwNTNlNGMxMmFjMzZiNjZmNDFmZDk4N2QwNTQ2MWMxZjdmMmJkYjQ0MWJlZDVjMjJmNjg0OTE2M2U5MjNlNGNmNGM1ZTc1NGNjMWFiYWIwOGEwMWVhOTZhOWRjNGNiNjk2YmYwNzhiY2E1ZGIzMWRiZjdjOWEzMzc=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000

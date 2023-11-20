@@ -1,41 +1,38 @@
 package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Commandes.
  */
-@Table("commandes")
+@Entity
+@Table(name = "commandes")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Commandes implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("date_commande")
+    @Column(name = "date_commande")
     private Instant dateCommande;
 
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
     private Clients clients;
 
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "categories" }, allowSetters = true)
     private Produits produits;
-
-    @Column("clients_id")
-    private Long clientsId;
-
-    @Column("produits_id")
-    private Long produitsId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -71,7 +68,6 @@ public class Commandes implements Serializable {
 
     public void setClients(Clients clients) {
         this.clients = clients;
-        this.clientsId = clients != null ? clients.getId() : null;
     }
 
     public Commandes clients(Clients clients) {
@@ -85,28 +81,11 @@ public class Commandes implements Serializable {
 
     public void setProduits(Produits produits) {
         this.produits = produits;
-        this.produitsId = produits != null ? produits.getId() : null;
     }
 
     public Commandes produits(Produits produits) {
         this.setProduits(produits);
         return this;
-    }
-
-    public Long getClientsId() {
-        return this.clientsId;
-    }
-
-    public void setClientsId(Long clients) {
-        this.clientsId = clients;
-    }
-
-    public Long getProduitsId() {
-        return this.produitsId;
-    }
-
-    public void setProduitsId(Long produits) {
-        this.produitsId = produits;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

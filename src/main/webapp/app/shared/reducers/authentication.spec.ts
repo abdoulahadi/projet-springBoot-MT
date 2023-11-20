@@ -156,7 +156,7 @@ describe('Authentication reducer tests', () => {
     const resolvedObject = { value: 'whatever' };
     beforeEach(() => {
       const mockStore = configureStore([thunk]);
-      store = mockStore({ authentication: { account: { langKey: 'en' } }, locale: { loadedLocales: ['en'] } });
+      store = mockStore({ authentication: { account: { langKey: 'fr' } }, locale: { loadedLocales: ['fr'] } });
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 

@@ -6,7 +6,7 @@ import { TranslatorContext } from 'react-jhipster';
 
 import locale, { setLocale, updateLocale, loaded, addTranslationSourcePrefix } from 'app/shared/reducers/locale';
 
-const defaultLocale = 'en';
+const defaultLocale = 'fr';
 
 describe('Locale reducer tests', () => {
   it('should return the initial state', () => {

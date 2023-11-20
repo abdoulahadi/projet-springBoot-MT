@@ -21,18 +21,18 @@ import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
-public class JobMultiTiersApp {
+public class MultitiersApp {
 
-    private static final Logger log = LoggerFactory.getLogger(JobMultiTiersApp.class);
+    private static final Logger log = LoggerFactory.getLogger(MultitiersApp.class);
 
     private final Environment env;
 
-    public JobMultiTiersApp(Environment env) {
+    public MultitiersApp(Environment env) {
         this.env = env;
     }
 
     /**
-     * Initializes jobMultiTiers.
+     * Initializes multitiers.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>
@@ -65,7 +65,7 @@ public class JobMultiTiersApp {
      * @param args the command line arguments.
      */
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(JobMultiTiersApp.class);
+        SpringApplication app = new SpringApplication(MultitiersApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);

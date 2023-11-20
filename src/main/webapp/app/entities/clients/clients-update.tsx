@@ -8,6 +8,8 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { IClients } from 'app/shared/model/clients.model';
 import { getEntity, updateEntity, createEntity, reset } from './clients.reducer';
 
@@ -19,6 +21,7 @@ export const ClientsUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
+  const users = useAppSelector(state => state.userManagement.users);
   const clientsEntity = useAppSelector(state => state.clients.entity);
   const loading = useAppSelector(state => state.clients.loading);
   const updating = useAppSelector(state => state.clients.updating);
@@ -34,6 +37,8 @@ export const ClientsUpdate = () => {
     } else {
       dispatch(getEntity(id));
     }
+
+    dispatch(getUsers({}));
   }, []);
 
   useEffect(() => {
@@ -47,13 +52,11 @@ export const ClientsUpdate = () => {
     if (values.id !== undefined && typeof values.id !== 'number') {
       values.id = Number(values.id);
     }
-    if (values.idUser !== undefined && typeof values.idUser !== 'number') {
-      values.idUser = Number(values.idUser);
-    }
 
     const entity = {
       ...clientsEntity,
       ...values,
+      user: users.find(it => it.id.toString() === values.user.toString()),
     };
 
     if (isNew) {
@@ -68,14 +71,15 @@ export const ClientsUpdate = () => {
       ? {}
       : {
           ...clientsEntity,
+          user: clientsEntity?.user?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="jobMultiTiersApp.clients.home.createOrEditLabel" data-cy="ClientsCreateUpdateHeading">
-            <Translate contentKey="jobMultiTiersApp.clients.home.createOrEditLabel">Create or edit a Clients</Translate>
+          <h2 id="multitiersApp.clients.home.createOrEditLabel" data-cy="ClientsCreateUpdateHeading">
+            <Translate contentKey="multitiersApp.clients.home.createOrEditLabel">Create or edit a Clients</Translate>
           </h2>
         </Col>
       </Row>
@@ -95,42 +99,45 @@ export const ClientsUpdate = () => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField label={translate('jobMultiTiersApp.clients.nom')} id="clients-nom" name="nom" data-cy="nom" type="text" />
+              <ValidatedField label={translate('multitiersApp.clients.nom')} id="clients-nom" name="nom" data-cy="nom" type="text" />
               <ValidatedField
-                label={translate('jobMultiTiersApp.clients.prenom')}
+                label={translate('multitiersApp.clients.prenom')}
                 id="clients-prenom"
                 name="prenom"
                 data-cy="prenom"
                 type="text"
               />
               <ValidatedField
-                label={translate('jobMultiTiersApp.clients.adresse')}
+                label={translate('multitiersApp.clients.adresse')}
                 id="clients-adresse"
                 name="adresse"
                 data-cy="adresse"
                 type="text"
               />
               <ValidatedField
-                label={translate('jobMultiTiersApp.clients.telephone')}
+                label={translate('multitiersApp.clients.telephone')}
                 id="clients-telephone"
                 name="telephone"
                 data-cy="telephone"
                 type="text"
               />
               <ValidatedField
-                label={translate('jobMultiTiersApp.clients.email')}
+                label={translate('multitiersApp.clients.email')}
                 id="clients-email"
                 name="email"
                 data-cy="email"
                 type="text"
               />
-              <ValidatedField
-                label={translate('jobMultiTiersApp.clients.idUser')}
-                id="clients-idUser"
-                name="idUser"
-                data-cy="idUser"
-                type="text"
-              />
+              <ValidatedField id="clients-user" name="user" data-cy="user" label={translate('multitiersApp.clients.user')} type="select">
+                <option value="" key="0" />
+                {users
+                  ? users.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/clients" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

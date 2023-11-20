@@ -66,16 +66,16 @@ export const Categories = () => {
   return (
     <div>
       <h2 id="categories-heading" data-cy="CategoriesHeading">
-        <Translate contentKey="jobMultiTiersApp.categories.home.title">Categories</Translate>
+        <Translate contentKey="multitiersApp.categories.home.title">Categories</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="jobMultiTiersApp.categories.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="multitiersApp.categories.home.refreshListLabel">Refresh List</Translate>
           </Button>
           <Link to="/categories/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="jobMultiTiersApp.categories.home.createLabel">Create new Categories</Translate>
+            <Translate contentKey="multitiersApp.categories.home.createLabel">Create new Categories</Translate>
           </Link>
         </div>
       </h2>
@@ -85,11 +85,10 @@ export const Categories = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="jobMultiTiersApp.categories.id">ID</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  <Translate contentKey="multitiersApp.categories.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('nomCategorie')}>
-                  <Translate contentKey="jobMultiTiersApp.categories.nomCategorie">Nom Categorie</Translate>{' '}
+                  <Translate contentKey="multitiersApp.categories.nomCategorie">Nom Categorie</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('nomCategorie')} />
                 </th>
                 <th />
@@ -138,7 +137,7 @@ export const Categories = () => {
         ) : (
           !loading && (
             <div className="alert alert-warning">
-              <Translate contentKey="jobMultiTiersApp.categories.home.notFound">No Categories found</Translate>
+              <Translate contentKey="multitiersApp.categories.home.notFound">No Categories found</Translate>
             </div>
           )
         )}

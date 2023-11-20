@@ -1,40 +1,44 @@
 package com.mycompany.myapp.domain;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Clients.
  */
-@Table("clients")
+@Entity
+@Table(name = "clients")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Clients implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column("nom")
+    @Column(name = "nom")
     private String nom;
 
-    @Column("prenom")
+    @Column(name = "prenom")
     private String prenom;
 
-    @Column("adresse")
+    @Column(name = "adresse")
     private String adresse;
 
-    @Column("telephone")
+    @Column(name = "telephone")
     private String telephone;
 
-    @Column("email")
+    @Column(name = "email")
     private String email;
 
-    @Column("id_user")
-    private Long idUser;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(unique = true)
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -116,17 +120,17 @@ public class Clients implements Serializable {
         this.email = email;
     }
 
-    public Long getIdUser() {
-        return this.idUser;
+    public User getUser() {
+        return this.user;
     }
 
-    public Clients idUser(Long idUser) {
-        this.setIdUser(idUser);
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Clients user(User user) {
+        this.setUser(user);
         return this;
-    }
-
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -158,7 +162,6 @@ public class Clients implements Serializable {
             ", adresse='" + getAdresse() + "'" +
             ", telephone='" + getTelephone() + "'" +
             ", email='" + getEmail() + "'" +
-            ", idUser=" + getIdUser() +
             "}";
     }
 }

@@ -22,7 +22,7 @@ export const ProduitsDetail = () => {
     <Row>
       <Col md="8">
         <h2 data-cy="produitsDetailsHeading">
-          <Translate contentKey="jobMultiTiersApp.produits.detail.title">Produits</Translate>
+          <Translate contentKey="multitiersApp.produits.detail.title">Produits</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -33,30 +33,30 @@ export const ProduitsDetail = () => {
           <dd>{produitsEntity.id}</dd>
           <dt>
             <span id="nomProduit">
-              <Translate contentKey="jobMultiTiersApp.produits.nomProduit">Nom Produit</Translate>
+              <Translate contentKey="multitiersApp.produits.nomProduit">Nom Produit</Translate>
             </span>
           </dt>
           <dd>{produitsEntity.nomProduit}</dd>
           <dt>
             <span id="descriptionProduit">
-              <Translate contentKey="jobMultiTiersApp.produits.descriptionProduit">Description Produit</Translate>
+              <Translate contentKey="multitiersApp.produits.descriptionProduit">Description Produit</Translate>
             </span>
           </dt>
           <dd>{produitsEntity.descriptionProduit}</dd>
           <dt>
             <span id="prixProduit">
-              <Translate contentKey="jobMultiTiersApp.produits.prixProduit">Prix Produit</Translate>
+              <Translate contentKey="multitiersApp.produits.prixProduit">Prix Produit</Translate>
             </span>
           </dt>
           <dd>{produitsEntity.prixProduit}</dd>
           <dt>
             <span id="imageProduit">
-              <Translate contentKey="jobMultiTiersApp.produits.imageProduit">Image Produit</Translate>
+              <Translate contentKey="multitiersApp.produits.imageProduit">Image Produit</Translate>
             </span>
           </dt>
           <dd>{produitsEntity.imageProduit}</dd>
           <dt>
-            <Translate contentKey="jobMultiTiersApp.produits.categories">Categories</Translate>
+            <Translate contentKey="multitiersApp.produits.categories">Categories</Translate>
           </dt>
           <dd>{produitsEntity.categories ? produitsEntity.categories.id : ''}</dd>
         </dl>
