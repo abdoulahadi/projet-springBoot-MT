@@ -47,9 +47,6 @@ export const CategoriesUpdate = () => {
     if (values.id !== undefined && typeof values.id !== 'number') {
       values.id = Number(values.id);
     }
-    if (values.idCategorie !== undefined && typeof values.idCategorie !== 'number') {
-      values.idCategorie = Number(values.idCategorie);
-    }
 
     const entity = {
       ...categoriesEntity,
@@ -95,13 +92,6 @@ export const CategoriesUpdate = () => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField
-                label={translate('jobMultiTiersApp.categories.idCategorie')}
-                id="categories-idCategorie"
-                name="idCategorie"
-                data-cy="idCategorie"
-                type="text"
-              />
               <ValidatedField
                 label={translate('jobMultiTiersApp.categories.nomCategorie')}
                 id="categories-nomCategorie"

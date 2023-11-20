@@ -29,9 +29,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @WithMockUser
 class ClientsResourceIT {
 
-    private static final Long DEFAULT_ID_CLIENT = 1L;
-    private static final Long UPDATED_ID_CLIENT = 2L;
-
     private static final String DEFAULT_NOM = "AAAAAAAAAA";
     private static final String UPDATED_NOM = "BBBBBBBBBB";
 
@@ -46,6 +43,9 @@ class ClientsResourceIT {
 
     private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_EMAIL = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_ID_USER = 1L;
+    private static final Long UPDATED_ID_USER = 2L;
 
     private static final String ENTITY_API_URL = "/api/clients";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -72,12 +72,12 @@ class ClientsResourceIT {
      */
     public static Clients createEntity(EntityManager em) {
         Clients clients = new Clients()
-            .idClient(DEFAULT_ID_CLIENT)
             .nom(DEFAULT_NOM)
             .prenom(DEFAULT_PRENOM)
             .adresse(DEFAULT_ADRESSE)
             .telephone(DEFAULT_TELEPHONE)
-            .email(DEFAULT_EMAIL);
+            .email(DEFAULT_EMAIL)
+            .idUser(DEFAULT_ID_USER);
         return clients;
     }
 
@@ -89,12 +89,12 @@ class ClientsResourceIT {
      */
     public static Clients createUpdatedEntity(EntityManager em) {
         Clients clients = new Clients()
-            .idClient(UPDATED_ID_CLIENT)
             .nom(UPDATED_NOM)
             .prenom(UPDATED_PRENOM)
             .adresse(UPDATED_ADRESSE)
             .telephone(UPDATED_TELEPHONE)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .idUser(UPDATED_ID_USER);
         return clients;
     }
 
@@ -134,12 +134,12 @@ class ClientsResourceIT {
         List<Clients> clientsList = clientsRepository.findAll().collectList().block();
         assertThat(clientsList).hasSize(databaseSizeBeforeCreate + 1);
         Clients testClients = clientsList.get(clientsList.size() - 1);
-        assertThat(testClients.getIdClient()).isEqualTo(DEFAULT_ID_CLIENT);
         assertThat(testClients.getNom()).isEqualTo(DEFAULT_NOM);
         assertThat(testClients.getPrenom()).isEqualTo(DEFAULT_PRENOM);
         assertThat(testClients.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
         assertThat(testClients.getTelephone()).isEqualTo(DEFAULT_TELEPHONE);
         assertThat(testClients.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testClients.getIdUser()).isEqualTo(DEFAULT_ID_USER);
     }
 
     @Test
@@ -187,12 +187,12 @@ class ClientsResourceIT {
         assertThat(clientsList).isNotNull();
         assertThat(clientsList).hasSize(1);
         Clients testClients = clientsList.get(0);
-        assertThat(testClients.getIdClient()).isEqualTo(DEFAULT_ID_CLIENT);
         assertThat(testClients.getNom()).isEqualTo(DEFAULT_NOM);
         assertThat(testClients.getPrenom()).isEqualTo(DEFAULT_PRENOM);
         assertThat(testClients.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
         assertThat(testClients.getTelephone()).isEqualTo(DEFAULT_TELEPHONE);
         assertThat(testClients.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testClients.getIdUser()).isEqualTo(DEFAULT_ID_USER);
     }
 
     @Test
@@ -213,8 +213,6 @@ class ClientsResourceIT {
             .expectBody()
             .jsonPath("$.[*].id")
             .value(hasItem(clients.getId().intValue()))
-            .jsonPath("$.[*].idClient")
-            .value(hasItem(DEFAULT_ID_CLIENT.intValue()))
             .jsonPath("$.[*].nom")
             .value(hasItem(DEFAULT_NOM))
             .jsonPath("$.[*].prenom")
@@ -224,7 +222,9 @@ class ClientsResourceIT {
             .jsonPath("$.[*].telephone")
             .value(hasItem(DEFAULT_TELEPHONE))
             .jsonPath("$.[*].email")
-            .value(hasItem(DEFAULT_EMAIL));
+            .value(hasItem(DEFAULT_EMAIL))
+            .jsonPath("$.[*].idUser")
+            .value(hasItem(DEFAULT_ID_USER.intValue()));
     }
 
     @Test
@@ -245,8 +245,6 @@ class ClientsResourceIT {
             .expectBody()
             .jsonPath("$.id")
             .value(is(clients.getId().intValue()))
-            .jsonPath("$.idClient")
-            .value(is(DEFAULT_ID_CLIENT.intValue()))
             .jsonPath("$.nom")
             .value(is(DEFAULT_NOM))
             .jsonPath("$.prenom")
@@ -256,7 +254,9 @@ class ClientsResourceIT {
             .jsonPath("$.telephone")
             .value(is(DEFAULT_TELEPHONE))
             .jsonPath("$.email")
-            .value(is(DEFAULT_EMAIL));
+            .value(is(DEFAULT_EMAIL))
+            .jsonPath("$.idUser")
+            .value(is(DEFAULT_ID_USER.intValue()));
     }
 
     @Test
@@ -281,12 +281,12 @@ class ClientsResourceIT {
         // Update the clients
         Clients updatedClients = clientsRepository.findById(clients.getId()).block();
         updatedClients
-            .idClient(UPDATED_ID_CLIENT)
             .nom(UPDATED_NOM)
             .prenom(UPDATED_PRENOM)
             .adresse(UPDATED_ADRESSE)
             .telephone(UPDATED_TELEPHONE)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .idUser(UPDATED_ID_USER);
 
         webTestClient
             .put()
@@ -301,12 +301,12 @@ class ClientsResourceIT {
         List<Clients> clientsList = clientsRepository.findAll().collectList().block();
         assertThat(clientsList).hasSize(databaseSizeBeforeUpdate);
         Clients testClients = clientsList.get(clientsList.size() - 1);
-        assertThat(testClients.getIdClient()).isEqualTo(UPDATED_ID_CLIENT);
         assertThat(testClients.getNom()).isEqualTo(UPDATED_NOM);
         assertThat(testClients.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testClients.getAdresse()).isEqualTo(UPDATED_ADRESSE);
         assertThat(testClients.getTelephone()).isEqualTo(UPDATED_TELEPHONE);
         assertThat(testClients.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testClients.getIdUser()).isEqualTo(UPDATED_ID_USER);
     }
 
     @Test
@@ -380,7 +380,7 @@ class ClientsResourceIT {
         Clients partialUpdatedClients = new Clients();
         partialUpdatedClients.setId(clients.getId());
 
-        partialUpdatedClients.nom(UPDATED_NOM).adresse(UPDATED_ADRESSE).telephone(UPDATED_TELEPHONE).email(UPDATED_EMAIL);
+        partialUpdatedClients.prenom(UPDATED_PRENOM).telephone(UPDATED_TELEPHONE).email(UPDATED_EMAIL).idUser(UPDATED_ID_USER);
 
         webTestClient
             .patch()
@@ -395,12 +395,12 @@ class ClientsResourceIT {
         List<Clients> clientsList = clientsRepository.findAll().collectList().block();
         assertThat(clientsList).hasSize(databaseSizeBeforeUpdate);
         Clients testClients = clientsList.get(clientsList.size() - 1);
-        assertThat(testClients.getIdClient()).isEqualTo(DEFAULT_ID_CLIENT);
-        assertThat(testClients.getNom()).isEqualTo(UPDATED_NOM);
-        assertThat(testClients.getPrenom()).isEqualTo(DEFAULT_PRENOM);
-        assertThat(testClients.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testClients.getNom()).isEqualTo(DEFAULT_NOM);
+        assertThat(testClients.getPrenom()).isEqualTo(UPDATED_PRENOM);
+        assertThat(testClients.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
         assertThat(testClients.getTelephone()).isEqualTo(UPDATED_TELEPHONE);
         assertThat(testClients.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testClients.getIdUser()).isEqualTo(UPDATED_ID_USER);
     }
 
     @Test
@@ -415,12 +415,12 @@ class ClientsResourceIT {
         partialUpdatedClients.setId(clients.getId());
 
         partialUpdatedClients
-            .idClient(UPDATED_ID_CLIENT)
             .nom(UPDATED_NOM)
             .prenom(UPDATED_PRENOM)
             .adresse(UPDATED_ADRESSE)
             .telephone(UPDATED_TELEPHONE)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .idUser(UPDATED_ID_USER);
 
         webTestClient
             .patch()
@@ -435,12 +435,12 @@ class ClientsResourceIT {
         List<Clients> clientsList = clientsRepository.findAll().collectList().block();
         assertThat(clientsList).hasSize(databaseSizeBeforeUpdate);
         Clients testClients = clientsList.get(clientsList.size() - 1);
-        assertThat(testClients.getIdClient()).isEqualTo(UPDATED_ID_CLIENT);
         assertThat(testClients.getNom()).isEqualTo(UPDATED_NOM);
         assertThat(testClients.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testClients.getAdresse()).isEqualTo(UPDATED_ADRESSE);
         assertThat(testClients.getTelephone()).isEqualTo(UPDATED_TELEPHONE);
         assertThat(testClients.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testClients.getIdUser()).isEqualTo(UPDATED_ID_USER);
     }
 
     @Test

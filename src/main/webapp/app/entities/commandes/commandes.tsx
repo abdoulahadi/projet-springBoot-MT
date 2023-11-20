@@ -89,10 +89,6 @@ export const Commandes = () => {
                   <Translate contentKey="jobMultiTiersApp.commandes.id">ID</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
-                <th className="hand" onClick={sort('idCommande')}>
-                  <Translate contentKey="jobMultiTiersApp.commandes.idCommande">Id Commande</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('idCommande')} />
-                </th>
                 <th className="hand" onClick={sort('dateCommande')}>
                   <Translate contentKey="jobMultiTiersApp.commandes.dateCommande">Date Commande</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('dateCommande')} />
@@ -114,12 +110,11 @@ export const Commandes = () => {
                       {commandes.id}
                     </Button>
                   </td>
-                  <td>{commandes.idCommande}</td>
                   <td>
                     {commandes.dateCommande ? <TextFormat type="date" value={commandes.dateCommande} format={APP_DATE_FORMAT} /> : null}
                   </td>
-                  <td>{commandes.clients ? <Link to={`/clients/${commandes.clients.id}`}>{commandes.clients.idClient}</Link> : ''}</td>
-                  <td>{commandes.produits ? <Link to={`/produits/${commandes.produits.id}`}>{commandes.produits.idProduit}</Link> : ''}</td>
+                  <td>{commandes.clients ? <Link to={`/clients/${commandes.clients.id}`}>{commandes.clients.id}</Link> : ''}</td>
+                  <td>{commandes.produits ? <Link to={`/produits/${commandes.produits.id}`}>{commandes.produits.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/commandes/${commandes.id}`} color="info" size="sm" data-cy="entityDetailsButton">

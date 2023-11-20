@@ -14,9 +14,6 @@
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="id_produit" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="nom_produit" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -53,7 +50,6 @@
                   tableName="produits"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="id_produit" type="numeric"/>
             <column name="nom_produit" type="string"/>
             <column name="description_produit" type="string"/>
             <column name="prix_produit" type="numeric"/>

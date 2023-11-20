@@ -19,9 +19,6 @@ public class Produits implements Serializable {
     @Column("id")
     private Long id;
 
-    @Column("id_produit")
-    private Long idProduit;
-
     @Column("nom_produit")
     private String nomProduit;
 
@@ -53,19 +50,6 @@ public class Produits implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getIdProduit() {
-        return this.idProduit;
-    }
-
-    public Produits idProduit(Long idProduit) {
-        this.setIdProduit(idProduit);
-        return this;
-    }
-
-    public void setIdProduit(Long idProduit) {
-        this.idProduit = idProduit;
     }
 
     public String getNomProduit() {
@@ -166,7 +150,6 @@ public class Produits implements Serializable {
     public String toString() {
         return "Produits{" +
             "id=" + getId() +
-            ", idProduit=" + getIdProduit() +
             ", nomProduit='" + getNomProduit() + "'" +
             ", descriptionProduit='" + getDescriptionProduit() + "'" +
             ", prixProduit=" + getPrixProduit() +

@@ -32,12 +32,6 @@ export const ClientsDetail = () => {
           </dt>
           <dd>{clientsEntity.id}</dd>
           <dt>
-            <span id="idClient">
-              <Translate contentKey="jobMultiTiersApp.clients.idClient">Id Client</Translate>
-            </span>
-          </dt>
-          <dd>{clientsEntity.idClient}</dd>
-          <dt>
             <span id="nom">
               <Translate contentKey="jobMultiTiersApp.clients.nom">Nom</Translate>
             </span>
@@ -68,9 +62,11 @@ export const ClientsDetail = () => {
           </dt>
           <dd>{clientsEntity.email}</dd>
           <dt>
-            <Translate contentKey="jobMultiTiersApp.clients.user">User</Translate>
+            <span id="idUser">
+              <Translate contentKey="jobMultiTiersApp.clients.idUser">Id User</Translate>
+            </span>
           </dt>
-          <dd>{clientsEntity.user ? clientsEntity.user.id : ''}</dd>
+          <dd>{clientsEntity.idUser}</dd>
         </dl>
         <Button tag={Link} to="/clients" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

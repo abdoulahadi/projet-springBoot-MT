@@ -29,9 +29,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @WithMockUser
 class CategoriesResourceIT {
 
-    private static final Long DEFAULT_ID_CATEGORIE = 1L;
-    private static final Long UPDATED_ID_CATEGORIE = 2L;
-
     private static final String DEFAULT_NOM_CATEGORIE = "AAAAAAAAAA";
     private static final String UPDATED_NOM_CATEGORIE = "BBBBBBBBBB";
 
@@ -59,7 +56,7 @@ class CategoriesResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Categories createEntity(EntityManager em) {
-        Categories categories = new Categories().idCategorie(DEFAULT_ID_CATEGORIE).nomCategorie(DEFAULT_NOM_CATEGORIE);
+        Categories categories = new Categories().nomCategorie(DEFAULT_NOM_CATEGORIE);
         return categories;
     }
 
@@ -70,7 +67,7 @@ class CategoriesResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Categories createUpdatedEntity(EntityManager em) {
-        Categories categories = new Categories().idCategorie(UPDATED_ID_CATEGORIE).nomCategorie(UPDATED_NOM_CATEGORIE);
+        Categories categories = new Categories().nomCategorie(UPDATED_NOM_CATEGORIE);
         return categories;
     }
 
@@ -110,7 +107,6 @@ class CategoriesResourceIT {
         List<Categories> categoriesList = categoriesRepository.findAll().collectList().block();
         assertThat(categoriesList).hasSize(databaseSizeBeforeCreate + 1);
         Categories testCategories = categoriesList.get(categoriesList.size() - 1);
-        assertThat(testCategories.getIdCategorie()).isEqualTo(DEFAULT_ID_CATEGORIE);
         assertThat(testCategories.getNomCategorie()).isEqualTo(DEFAULT_NOM_CATEGORIE);
     }
 
@@ -159,7 +155,6 @@ class CategoriesResourceIT {
         assertThat(categoriesList).isNotNull();
         assertThat(categoriesList).hasSize(1);
         Categories testCategories = categoriesList.get(0);
-        assertThat(testCategories.getIdCategorie()).isEqualTo(DEFAULT_ID_CATEGORIE);
         assertThat(testCategories.getNomCategorie()).isEqualTo(DEFAULT_NOM_CATEGORIE);
     }
 
@@ -181,8 +176,6 @@ class CategoriesResourceIT {
             .expectBody()
             .jsonPath("$.[*].id")
             .value(hasItem(categories.getId().intValue()))
-            .jsonPath("$.[*].idCategorie")
-            .value(hasItem(DEFAULT_ID_CATEGORIE.intValue()))
             .jsonPath("$.[*].nomCategorie")
             .value(hasItem(DEFAULT_NOM_CATEGORIE));
     }
@@ -205,8 +198,6 @@ class CategoriesResourceIT {
             .expectBody()
             .jsonPath("$.id")
             .value(is(categories.getId().intValue()))
-            .jsonPath("$.idCategorie")
-            .value(is(DEFAULT_ID_CATEGORIE.intValue()))
             .jsonPath("$.nomCategorie")
             .value(is(DEFAULT_NOM_CATEGORIE));
     }
@@ -232,7 +223,7 @@ class CategoriesResourceIT {
 
         // Update the categories
         Categories updatedCategories = categoriesRepository.findById(categories.getId()).block();
-        updatedCategories.idCategorie(UPDATED_ID_CATEGORIE).nomCategorie(UPDATED_NOM_CATEGORIE);
+        updatedCategories.nomCategorie(UPDATED_NOM_CATEGORIE);
 
         webTestClient
             .put()
@@ -247,7 +238,6 @@ class CategoriesResourceIT {
         List<Categories> categoriesList = categoriesRepository.findAll().collectList().block();
         assertThat(categoriesList).hasSize(databaseSizeBeforeUpdate);
         Categories testCategories = categoriesList.get(categoriesList.size() - 1);
-        assertThat(testCategories.getIdCategorie()).isEqualTo(UPDATED_ID_CATEGORIE);
         assertThat(testCategories.getNomCategorie()).isEqualTo(UPDATED_NOM_CATEGORIE);
     }
 
@@ -335,7 +325,6 @@ class CategoriesResourceIT {
         List<Categories> categoriesList = categoriesRepository.findAll().collectList().block();
         assertThat(categoriesList).hasSize(databaseSizeBeforeUpdate);
         Categories testCategories = categoriesList.get(categoriesList.size() - 1);
-        assertThat(testCategories.getIdCategorie()).isEqualTo(DEFAULT_ID_CATEGORIE);
         assertThat(testCategories.getNomCategorie()).isEqualTo(DEFAULT_NOM_CATEGORIE);
     }
 
@@ -350,7 +339,7 @@ class CategoriesResourceIT {
         Categories partialUpdatedCategories = new Categories();
         partialUpdatedCategories.setId(categories.getId());
 
-        partialUpdatedCategories.idCategorie(UPDATED_ID_CATEGORIE).nomCategorie(UPDATED_NOM_CATEGORIE);
+        partialUpdatedCategories.nomCategorie(UPDATED_NOM_CATEGORIE);
 
         webTestClient
             .patch()
@@ -365,7 +354,6 @@ class CategoriesResourceIT {
         List<Categories> categoriesList = categoriesRepository.findAll().collectList().block();
         assertThat(categoriesList).hasSize(databaseSizeBeforeUpdate);
         Categories testCategories = categoriesList.get(categoriesList.size() - 1);
-        assertThat(testCategories.getIdCategorie()).isEqualTo(UPDATED_ID_CATEGORIE);
         assertThat(testCategories.getNomCategorie()).isEqualTo(UPDATED_NOM_CATEGORIE);
     }
 

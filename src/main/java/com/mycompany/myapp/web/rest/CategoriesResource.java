@@ -145,9 +145,6 @@ public class CategoriesResource {
                 Mono<Categories> result = categoriesRepository
                     .findById(categories.getId())
                     .map(existingCategories -> {
-                        if (categories.getIdCategorie() != null) {
-                            existingCategories.setIdCategorie(categories.getIdCategorie());
-                        }
                         if (categories.getNomCategorie() != null) {
                             existingCategories.setNomCategorie(categories.getNomCategorie());
                         }

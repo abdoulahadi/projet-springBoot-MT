@@ -33,12 +33,6 @@ export const CommandesDetail = () => {
           </dt>
           <dd>{commandesEntity.id}</dd>
           <dt>
-            <span id="idCommande">
-              <Translate contentKey="jobMultiTiersApp.commandes.idCommande">Id Commande</Translate>
-            </span>
-          </dt>
-          <dd>{commandesEntity.idCommande}</dd>
-          <dt>
             <span id="dateCommande">
               <Translate contentKey="jobMultiTiersApp.commandes.dateCommande">Date Commande</Translate>
             </span>
@@ -49,11 +43,11 @@ export const CommandesDetail = () => {
           <dt>
             <Translate contentKey="jobMultiTiersApp.commandes.clients">Clients</Translate>
           </dt>
-          <dd>{commandesEntity.clients ? commandesEntity.clients.idClient : ''}</dd>
+          <dd>{commandesEntity.clients ? commandesEntity.clients.id : ''}</dd>
           <dt>
             <Translate contentKey="jobMultiTiersApp.commandes.produits">Produits</Translate>
           </dt>
-          <dd>{commandesEntity.produits ? commandesEntity.produits.idProduit : ''}</dd>
+          <dd>{commandesEntity.produits ? commandesEntity.produits.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/commandes" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

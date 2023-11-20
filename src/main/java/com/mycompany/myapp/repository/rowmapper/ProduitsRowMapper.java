@@ -25,7 +25,6 @@ public class ProduitsRowMapper implements BiFunction<Row, String, Produits> {
     public Produits apply(Row row, String prefix) {
         Produits entity = new Produits();
         entity.setId(converter.fromRow(row, prefix + "_id", Long.class));
-        entity.setIdProduit(converter.fromRow(row, prefix + "_id_produit", Long.class));
         entity.setNomProduit(converter.fromRow(row, prefix + "_nom_produit", String.class));
         entity.setDescriptionProduit(converter.fromRow(row, prefix + "_description_produit", String.class));
         entity.setPrixProduit(converter.fromRow(row, prefix + "_prix_produit", Long.class));

@@ -88,10 +88,6 @@ export const Produits = () => {
                   <Translate contentKey="jobMultiTiersApp.produits.id">ID</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
-                <th className="hand" onClick={sort('idProduit')}>
-                  <Translate contentKey="jobMultiTiersApp.produits.idProduit">Id Produit</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('idProduit')} />
-                </th>
                 <th className="hand" onClick={sort('nomProduit')}>
                   <Translate contentKey="jobMultiTiersApp.produits.nomProduit">Nom Produit</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('nomProduit')} />
@@ -122,14 +118,11 @@ export const Produits = () => {
                       {produits.id}
                     </Button>
                   </td>
-                  <td>{produits.idProduit}</td>
                   <td>{produits.nomProduit}</td>
                   <td>{produits.descriptionProduit}</td>
                   <td>{produits.prixProduit}</td>
                   <td>{produits.imageProduit}</td>
-                  <td>
-                    {produits.categories ? <Link to={`/categories/${produits.categories.id}`}>{produits.categories.idCategorie}</Link> : ''}
-                  </td>
+                  <td>{produits.categories ? <Link to={`/categories/${produits.categories.id}`}>{produits.categories.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/produits/${produits.id}`} color="info" size="sm" data-cy="entityDetailsButton">

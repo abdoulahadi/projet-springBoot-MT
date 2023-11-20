@@ -88,10 +88,6 @@ export const Categories = () => {
                   <Translate contentKey="jobMultiTiersApp.categories.id">ID</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
-                <th className="hand" onClick={sort('idCategorie')}>
-                  <Translate contentKey="jobMultiTiersApp.categories.idCategorie">Id Categorie</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('idCategorie')} />
-                </th>
                 <th className="hand" onClick={sort('nomCategorie')}>
                   <Translate contentKey="jobMultiTiersApp.categories.nomCategorie">Nom Categorie</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('nomCategorie')} />
@@ -107,7 +103,6 @@ export const Categories = () => {
                       {categories.id}
                     </Button>
                   </td>
-                  <td>{categories.idCategorie}</td>
                   <td>{categories.nomCategorie}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">

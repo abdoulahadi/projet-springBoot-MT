@@ -21,14 +21,10 @@ public class Commandes implements Serializable {
     @Column("id")
     private Long id;
 
-    @Column("id_commande")
-    private Long idCommande;
-
     @Column("date_commande")
     private Instant dateCommande;
 
     @Transient
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
     private Clients clients;
 
     @Transient
@@ -54,19 +50,6 @@ public class Commandes implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getIdCommande() {
-        return this.idCommande;
-    }
-
-    public Commandes idCommande(Long idCommande) {
-        this.setIdCommande(idCommande);
-        return this;
-    }
-
-    public void setIdCommande(Long idCommande) {
-        this.idCommande = idCommande;
     }
 
     public Instant getDateCommande() {
@@ -150,7 +133,6 @@ public class Commandes implements Serializable {
     public String toString() {
         return "Commandes{" +
             "id=" + getId() +
-            ", idCommande=" + getIdCommande() +
             ", dateCommande='" + getDateCommande() + "'" +
             "}";
     }

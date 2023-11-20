@@ -87,10 +87,6 @@ export const Clients = () => {
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="jobMultiTiersApp.clients.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
-                <th className="hand" onClick={sort('idClient')}>
-                  <Translate contentKey="jobMultiTiersApp.clients.idClient">Id Client</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('idClient')} />
-                </th>
                 <th className="hand" onClick={sort('nom')}>
                   <Translate contentKey="jobMultiTiersApp.clients.nom">Nom</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('nom')} />
@@ -111,8 +107,9 @@ export const Clients = () => {
                   <Translate contentKey="jobMultiTiersApp.clients.email">Email</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
                 </th>
-                <th>
-                  <Translate contentKey="jobMultiTiersApp.clients.user">User</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('idUser')}>
+                  <Translate contentKey="jobMultiTiersApp.clients.idUser">Id User</Translate>{' '}
+                  <FontAwesomeIcon icon={getSortIconByFieldName('idUser')} />
                 </th>
                 <th />
               </tr>
@@ -125,13 +122,12 @@ export const Clients = () => {
                       {clients.id}
                     </Button>
                   </td>
-                  <td>{clients.idClient}</td>
                   <td>{clients.nom}</td>
                   <td>{clients.prenom}</td>
                   <td>{clients.adresse}</td>
                   <td>{clients.telephone}</td>
                   <td>{clients.email}</td>
-                  <td>{clients.user ? clients.user.id : ''}</td>
+                  <td>{clients.idUser}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/clients/${clients.id}`} color="info" size="sm" data-cy="entityDetailsButton">

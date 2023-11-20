@@ -3,7 +3,6 @@ package com.mycompany.myapp.web.rest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.*;
 
 import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.Produits;
@@ -16,27 +15,19 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import reactor.core.publisher.Flux;
 
 /**
  * Integration tests for the {@link ProduitsResource} REST controller.
  */
 @IntegrationTest
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureWebTestClient(timeout = IntegrationTest.DEFAULT_ENTITY_TIMEOUT)
 @WithMockUser
 class ProduitsResourceIT {
-
-    private static final Long DEFAULT_ID_PRODUIT = 1L;
-    private static final Long UPDATED_ID_PRODUIT = 2L;
 
     private static final String DEFAULT_NOM_PRODUIT = "AAAAAAAAAA";
     private static final String UPDATED_NOM_PRODUIT = "BBBBBBBBBB";
@@ -59,9 +50,6 @@ class ProduitsResourceIT {
     @Autowired
     private ProduitsRepository produitsRepository;
 
-    @Mock
-    private ProduitsRepository produitsRepositoryMock;
-
     @Autowired
     private EntityManager em;
 
@@ -78,7 +66,6 @@ class ProduitsResourceIT {
      */
     public static Produits createEntity(EntityManager em) {
         Produits produits = new Produits()
-            .idProduit(DEFAULT_ID_PRODUIT)
             .nomProduit(DEFAULT_NOM_PRODUIT)
             .descriptionProduit(DEFAULT_DESCRIPTION_PRODUIT)
             .prixProduit(DEFAULT_PRIX_PRODUIT)
@@ -94,7 +81,6 @@ class ProduitsResourceIT {
      */
     public static Produits createUpdatedEntity(EntityManager em) {
         Produits produits = new Produits()
-            .idProduit(UPDATED_ID_PRODUIT)
             .nomProduit(UPDATED_NOM_PRODUIT)
             .descriptionProduit(UPDATED_DESCRIPTION_PRODUIT)
             .prixProduit(UPDATED_PRIX_PRODUIT)
@@ -138,7 +124,6 @@ class ProduitsResourceIT {
         List<Produits> produitsList = produitsRepository.findAll().collectList().block();
         assertThat(produitsList).hasSize(databaseSizeBeforeCreate + 1);
         Produits testProduits = produitsList.get(produitsList.size() - 1);
-        assertThat(testProduits.getIdProduit()).isEqualTo(DEFAULT_ID_PRODUIT);
         assertThat(testProduits.getNomProduit()).isEqualTo(DEFAULT_NOM_PRODUIT);
         assertThat(testProduits.getDescriptionProduit()).isEqualTo(DEFAULT_DESCRIPTION_PRODUIT);
         assertThat(testProduits.getPrixProduit()).isEqualTo(DEFAULT_PRIX_PRODUIT);
@@ -190,7 +175,6 @@ class ProduitsResourceIT {
         assertThat(produitsList).isNotNull();
         assertThat(produitsList).hasSize(1);
         Produits testProduits = produitsList.get(0);
-        assertThat(testProduits.getIdProduit()).isEqualTo(DEFAULT_ID_PRODUIT);
         assertThat(testProduits.getNomProduit()).isEqualTo(DEFAULT_NOM_PRODUIT);
         assertThat(testProduits.getDescriptionProduit()).isEqualTo(DEFAULT_DESCRIPTION_PRODUIT);
         assertThat(testProduits.getPrixProduit()).isEqualTo(DEFAULT_PRIX_PRODUIT);
@@ -215,8 +199,6 @@ class ProduitsResourceIT {
             .expectBody()
             .jsonPath("$.[*].id")
             .value(hasItem(produits.getId().intValue()))
-            .jsonPath("$.[*].idProduit")
-            .value(hasItem(DEFAULT_ID_PRODUIT.intValue()))
             .jsonPath("$.[*].nomProduit")
             .value(hasItem(DEFAULT_NOM_PRODUIT))
             .jsonPath("$.[*].descriptionProduit")
@@ -225,23 +207,6 @@ class ProduitsResourceIT {
             .value(hasItem(DEFAULT_PRIX_PRODUIT.intValue()))
             .jsonPath("$.[*].imageProduit")
             .value(hasItem(DEFAULT_IMAGE_PRODUIT));
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllProduitsWithEagerRelationshipsIsEnabled() {
-        when(produitsRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(Flux.empty());
-
-        webTestClient.get().uri(ENTITY_API_URL + "?eagerload=true").exchange().expectStatus().isOk();
-
-        verify(produitsRepositoryMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllProduitsWithEagerRelationshipsIsNotEnabled() {
-        when(produitsRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(Flux.empty());
-
-        webTestClient.get().uri(ENTITY_API_URL + "?eagerload=false").exchange().expectStatus().isOk();
-        verify(produitsRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -262,8 +227,6 @@ class ProduitsResourceIT {
             .expectBody()
             .jsonPath("$.id")
             .value(is(produits.getId().intValue()))
-            .jsonPath("$.idProduit")
-            .value(is(DEFAULT_ID_PRODUIT.intValue()))
             .jsonPath("$.nomProduit")
             .value(is(DEFAULT_NOM_PRODUIT))
             .jsonPath("$.descriptionProduit")
@@ -296,7 +259,6 @@ class ProduitsResourceIT {
         // Update the produits
         Produits updatedProduits = produitsRepository.findById(produits.getId()).block();
         updatedProduits
-            .idProduit(UPDATED_ID_PRODUIT)
             .nomProduit(UPDATED_NOM_PRODUIT)
             .descriptionProduit(UPDATED_DESCRIPTION_PRODUIT)
             .prixProduit(UPDATED_PRIX_PRODUIT)
@@ -315,7 +277,6 @@ class ProduitsResourceIT {
         List<Produits> produitsList = produitsRepository.findAll().collectList().block();
         assertThat(produitsList).hasSize(databaseSizeBeforeUpdate);
         Produits testProduits = produitsList.get(produitsList.size() - 1);
-        assertThat(testProduits.getIdProduit()).isEqualTo(UPDATED_ID_PRODUIT);
         assertThat(testProduits.getNomProduit()).isEqualTo(UPDATED_NOM_PRODUIT);
         assertThat(testProduits.getDescriptionProduit()).isEqualTo(UPDATED_DESCRIPTION_PRODUIT);
         assertThat(testProduits.getPrixProduit()).isEqualTo(UPDATED_PRIX_PRODUIT);
@@ -393,7 +354,7 @@ class ProduitsResourceIT {
         Produits partialUpdatedProduits = new Produits();
         partialUpdatedProduits.setId(produits.getId());
 
-        partialUpdatedProduits.descriptionProduit(UPDATED_DESCRIPTION_PRODUIT).imageProduit(UPDATED_IMAGE_PRODUIT);
+        partialUpdatedProduits.prixProduit(UPDATED_PRIX_PRODUIT);
 
         webTestClient
             .patch()
@@ -408,11 +369,10 @@ class ProduitsResourceIT {
         List<Produits> produitsList = produitsRepository.findAll().collectList().block();
         assertThat(produitsList).hasSize(databaseSizeBeforeUpdate);
         Produits testProduits = produitsList.get(produitsList.size() - 1);
-        assertThat(testProduits.getIdProduit()).isEqualTo(DEFAULT_ID_PRODUIT);
         assertThat(testProduits.getNomProduit()).isEqualTo(DEFAULT_NOM_PRODUIT);
-        assertThat(testProduits.getDescriptionProduit()).isEqualTo(UPDATED_DESCRIPTION_PRODUIT);
-        assertThat(testProduits.getPrixProduit()).isEqualTo(DEFAULT_PRIX_PRODUIT);
-        assertThat(testProduits.getImageProduit()).isEqualTo(UPDATED_IMAGE_PRODUIT);
+        assertThat(testProduits.getDescriptionProduit()).isEqualTo(DEFAULT_DESCRIPTION_PRODUIT);
+        assertThat(testProduits.getPrixProduit()).isEqualTo(UPDATED_PRIX_PRODUIT);
+        assertThat(testProduits.getImageProduit()).isEqualTo(DEFAULT_IMAGE_PRODUIT);
     }
 
     @Test
@@ -427,7 +387,6 @@ class ProduitsResourceIT {
         partialUpdatedProduits.setId(produits.getId());
 
         partialUpdatedProduits
-            .idProduit(UPDATED_ID_PRODUIT)
             .nomProduit(UPDATED_NOM_PRODUIT)
             .descriptionProduit(UPDATED_DESCRIPTION_PRODUIT)
             .prixProduit(UPDATED_PRIX_PRODUIT)
@@ -446,7 +405,6 @@ class ProduitsResourceIT {
         List<Produits> produitsList = produitsRepository.findAll().collectList().block();
         assertThat(produitsList).hasSize(databaseSizeBeforeUpdate);
         Produits testProduits = produitsList.get(produitsList.size() - 1);
-        assertThat(testProduits.getIdProduit()).isEqualTo(UPDATED_ID_PRODUIT);
         assertThat(testProduits.getNomProduit()).isEqualTo(UPDATED_NOM_PRODUIT);
         assertThat(testProduits.getDescriptionProduit()).isEqualTo(UPDATED_DESCRIPTION_PRODUIT);
         assertThat(testProduits.getPrixProduit()).isEqualTo(UPDATED_PRIX_PRODUIT);

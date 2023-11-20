@@ -32,12 +32,6 @@ export const CategoriesDetail = () => {
           </dt>
           <dd>{categoriesEntity.id}</dd>
           <dt>
-            <span id="idCategorie">
-              <Translate contentKey="jobMultiTiersApp.categories.idCategorie">Id Categorie</Translate>
-            </span>
-          </dt>
-          <dd>{categoriesEntity.idCategorie}</dd>
-          <dt>
             <span id="nomCategorie">
               <Translate contentKey="jobMultiTiersApp.categories.nomCategorie">Nom Categorie</Translate>
             </span>

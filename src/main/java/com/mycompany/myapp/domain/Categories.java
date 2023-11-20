@@ -18,9 +18,6 @@ public class Categories implements Serializable {
     @Column("id")
     private Long id;
 
-    @Column("id_categorie")
-    private Long idCategorie;
-
     @Column("nom_categorie")
     private String nomCategorie;
 
@@ -37,19 +34,6 @@ public class Categories implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getIdCategorie() {
-        return this.idCategorie;
-    }
-
-    public Categories idCategorie(Long idCategorie) {
-        this.setIdCategorie(idCategorie);
-        return this;
-    }
-
-    public void setIdCategorie(Long idCategorie) {
-        this.idCategorie = idCategorie;
     }
 
     public String getNomCategorie() {
@@ -89,7 +73,6 @@ public class Categories implements Serializable {
     public String toString() {
         return "Categories{" +
             "id=" + getId() +
-            ", idCategorie=" + getIdCategorie() +
             ", nomCategorie='" + getNomCategorie() + "'" +
             "}";
     }

@@ -18,7 +18,6 @@
         "title": "Commandes"
       },
       "id": "ID",
-      "idCommande": "Id Commande",
       "dateCommande": "Date Commande",
       "clients": "Clients",
       "produits": "Produits"

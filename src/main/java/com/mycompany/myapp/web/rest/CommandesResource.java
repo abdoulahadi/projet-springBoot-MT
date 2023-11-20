@@ -145,9 +145,6 @@ public class CommandesResource {
                 Mono<Commandes> result = commandesRepository
                     .findById(commandes.getId())
                     .map(existingCommandes -> {
-                        if (commandes.getIdCommande() != null) {
-                            existingCommandes.setIdCommande(commandes.getIdCommande());
-                        }
                         if (commandes.getDateCommande() != null) {
                             existingCommandes.setDateCommande(commandes.getDateCommande());
                         }
@@ -170,17 +167,12 @@ public class CommandesResource {
     /**
      * {@code GET  /commandes} : get all the commandes.
      *
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of commandes in body.
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<List<Commandes>> getAllCommandes(@RequestParam(required = false, defaultValue = "true") boolean eagerload) {
+    public Mono<List<Commandes>> getAllCommandes() {
         log.debug("REST request to get all Commandes");
-        if (eagerload) {
-            return commandesRepository.findAllWithEagerRelationships().collectList();
-        } else {
-            return commandesRepository.findAll().collectList();
-        }
+        return commandesRepository.findAll().collectList();
     }
 
     /**
@@ -202,7 +194,7 @@ public class CommandesResource {
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Commandes>> getCommandes(@PathVariable Long id) {
         log.debug("REST request to get Commandes : {}", id);
-        Mono<Commandes> commandes = commandesRepository.findOneWithEagerRelationships(id);
+        Mono<Commandes> commandes = commandesRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(commandes);
     }
 

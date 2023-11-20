@@ -14,15 +14,6 @@ import reactor.core.publisher.Mono;
 @SuppressWarnings("unused")
 @Repository
 public interface ProduitsRepository extends ReactiveCrudRepository<Produits, Long>, ProduitsRepositoryInternal {
-    @Override
-    Mono<Produits> findOneWithEagerRelationships(Long id);
-
-    @Override
-    Flux<Produits> findAllWithEagerRelationships();
-
-    @Override
-    Flux<Produits> findAllWithEagerRelationships(Pageable page);
-
     @Query("SELECT * FROM produits entity WHERE entity.categories_id = :id")
     Flux<Produits> findByCategories(Long id);
 
@@ -52,12 +43,4 @@ interface ProduitsRepositoryInternal {
     Mono<Produits> findById(Long id);
     // this is not supported at the moment because of https://github.com/jhipster/generator-jhipster/issues/18269
     // Flux<Produits> findAllBy(Pageable pageable, Criteria criteria);
-
-    Mono<Produits> findOneWithEagerRelationships(Long id);
-
-    Flux<Produits> findAllWithEagerRelationships();
-
-    Flux<Produits> findAllWithEagerRelationships(Pageable page);
-
-    Mono<Void> deleteById(Long id);
 }

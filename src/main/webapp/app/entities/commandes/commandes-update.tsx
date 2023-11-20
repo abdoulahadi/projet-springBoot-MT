@@ -56,9 +56,6 @@ export const CommandesUpdate = () => {
     if (values.id !== undefined && typeof values.id !== 'number') {
       values.id = Number(values.id);
     }
-    if (values.idCommande !== undefined && typeof values.idCommande !== 'number') {
-      values.idCommande = Number(values.idCommande);
-    }
     values.dateCommande = convertDateTimeToServer(values.dateCommande);
 
     const entity = {
@@ -113,13 +110,6 @@ export const CommandesUpdate = () => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('jobMultiTiersApp.commandes.idCommande')}
-                id="commandes-idCommande"
-                name="idCommande"
-                data-cy="idCommande"
-                type="text"
-              />
-              <ValidatedField
                 label={translate('jobMultiTiersApp.commandes.dateCommande')}
                 id="commandes-dateCommande"
                 name="dateCommande"
@@ -138,7 +128,7 @@ export const CommandesUpdate = () => {
                 {clients
                   ? clients.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.idClient}
+                        {otherEntity.id}
                       </option>
                     ))
                   : null}
@@ -154,7 +144,7 @@ export const CommandesUpdate = () => {
                 {produits
                   ? produits.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.idProduit}
+                        {otherEntity.id}
                       </option>
                     ))
                   : null}

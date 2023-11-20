@@ -11,7 +11,6 @@ public class CommandesSqlHelper {
     public static List<Expression> getColumns(Table table, String columnPrefix) {
         List<Expression> columns = new ArrayList<>();
         columns.add(Column.aliased("id", table, columnPrefix + "_id"));
-        columns.add(Column.aliased("id_commande", table, columnPrefix + "_id_commande"));
         columns.add(Column.aliased("date_commande", table, columnPrefix + "_date_commande"));
 
         columns.add(Column.aliased("clients_id", table, columnPrefix + "_clients_id"));

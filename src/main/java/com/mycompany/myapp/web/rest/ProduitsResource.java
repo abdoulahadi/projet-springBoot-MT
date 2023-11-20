@@ -145,9 +145,6 @@ public class ProduitsResource {
                 Mono<Produits> result = produitsRepository
                     .findById(produits.getId())
                     .map(existingProduits -> {
-                        if (produits.getIdProduit() != null) {
-                            existingProduits.setIdProduit(produits.getIdProduit());
-                        }
                         if (produits.getNomProduit() != null) {
                             existingProduits.setNomProduit(produits.getNomProduit());
                         }
@@ -179,17 +176,12 @@ public class ProduitsResource {
     /**
      * {@code GET  /produits} : get all the produits.
      *
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of produits in body.
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<List<Produits>> getAllProduits(@RequestParam(required = false, defaultValue = "true") boolean eagerload) {
+    public Mono<List<Produits>> getAllProduits() {
         log.debug("REST request to get all Produits");
-        if (eagerload) {
-            return produitsRepository.findAllWithEagerRelationships().collectList();
-        } else {
-            return produitsRepository.findAll().collectList();
-        }
+        return produitsRepository.findAll().collectList();
     }
 
     /**
@@ -211,7 +203,7 @@ public class ProduitsResource {
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Produits>> getProduits(@PathVariable Long id) {
         log.debug("REST request to get Produits : {}", id);
-        Mono<Produits> produits = produitsRepository.findOneWithEagerRelationships(id);
+        Mono<Produits> produits = produitsRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(produits);
     }
 

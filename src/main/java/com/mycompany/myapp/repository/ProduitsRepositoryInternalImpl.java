@@ -92,21 +92,6 @@ class ProduitsRepositoryInternalImpl extends SimpleR2dbcRepository<Produits, Lon
         return createQuery(null, whereClause).one();
     }
 
-    @Override
-    public Mono<Produits> findOneWithEagerRelationships(Long id) {
-        return findById(id);
-    }
-
-    @Override
-    public Flux<Produits> findAllWithEagerRelationships() {
-        return findAll();
-    }
-
-    @Override
-    public Flux<Produits> findAllWithEagerRelationships(Pageable page) {
-        return findAllBy(page);
-    }
-
     private Produits process(Row row, RowMetadata metadata) {
         Produits entity = produitsMapper.apply(row, "e");
         entity.setCategories(categoriesMapper.apply(row, "categories"));

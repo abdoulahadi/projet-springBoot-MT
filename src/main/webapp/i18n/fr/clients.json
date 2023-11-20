@@ -18,13 +18,12 @@
         "title": "Clients"
       },
       "id": "ID",
-      "idClient": "Id Client",
       "nom": "Nom",
       "prenom": "Prenom",
       "adresse": "Adresse",
       "telephone": "Telephone",
       "email": "Email",
-      "user": "User"
+      "idUser": "Id User"
     }
   }
 }

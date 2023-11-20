@@ -52,9 +52,6 @@ export const ProduitsUpdate = () => {
     if (values.id !== undefined && typeof values.id !== 'number') {
       values.id = Number(values.id);
     }
-    if (values.idProduit !== undefined && typeof values.idProduit !== 'number') {
-      values.idProduit = Number(values.idProduit);
-    }
     if (values.prixProduit !== undefined && typeof values.prixProduit !== 'number') {
       values.prixProduit = Number(values.prixProduit);
     }
@@ -106,13 +103,6 @@ export const ProduitsUpdate = () => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('jobMultiTiersApp.produits.idProduit')}
-                id="produits-idProduit"
-                name="idProduit"
-                data-cy="idProduit"
-                type="text"
-              />
-              <ValidatedField
                 label={translate('jobMultiTiersApp.produits.nomProduit')}
                 id="produits-nomProduit"
                 name="nomProduit"
@@ -151,7 +141,7 @@ export const ProduitsUpdate = () => {
                 {categories
                   ? categories.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.idCategorie}
+                        {otherEntity.id}
                       </option>
                     ))
                   : null}

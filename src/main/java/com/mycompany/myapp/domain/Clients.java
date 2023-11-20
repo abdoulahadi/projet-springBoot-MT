@@ -2,7 +2,6 @@ package com.mycompany.myapp.domain;
 
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -19,9 +18,6 @@ public class Clients implements Serializable {
     @Column("id")
     private Long id;
 
-    @Column("id_client")
-    private Long idClient;
-
     @Column("nom")
     private String nom;
 
@@ -37,11 +33,8 @@ public class Clients implements Serializable {
     @Column("email")
     private String email;
 
-    @Transient
-    private User user;
-
-    @Column("user_id")
-    private Long userId;
+    @Column("id_user")
+    private Long idUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -56,19 +49,6 @@ public class Clients implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getIdClient() {
-        return this.idClient;
-    }
-
-    public Clients idClient(Long idClient) {
-        this.setIdClient(idClient);
-        return this;
-    }
-
-    public void setIdClient(Long idClient) {
-        this.idClient = idClient;
     }
 
     public String getNom() {
@@ -136,26 +116,17 @@ public class Clients implements Serializable {
         this.email = email;
     }
 
-    public User getUser() {
-        return this.user;
+    public Long getIdUser() {
+        return this.idUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-        this.userId = user != null ? user.getId() : null;
-    }
-
-    public Clients user(User user) {
-        this.setUser(user);
+    public Clients idUser(Long idUser) {
+        this.setIdUser(idUser);
         return this;
     }
 
-    public Long getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(Long user) {
-        this.userId = user;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -182,12 +153,12 @@ public class Clients implements Serializable {
     public String toString() {
         return "Clients{" +
             "id=" + getId() +
-            ", idClient=" + getIdClient() +
             ", nom='" + getNom() + "'" +
             ", prenom='" + getPrenom() + "'" +
             ", adresse='" + getAdresse() + "'" +
             ", telephone='" + getTelephone() + "'" +
             ", email='" + getEmail() + "'" +
+            ", idUser=" + getIdUser() +
             "}";
     }
 }

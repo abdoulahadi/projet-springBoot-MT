@@ -18,7 +18,6 @@
         "title": "Produits"
       },
       "id": "ID",
-      "idProduit": "Id Produit",
       "nomProduit": "Nom Produit",
       "descriptionProduit": "Description Produit",
       "prixProduit": "Prix Produit",

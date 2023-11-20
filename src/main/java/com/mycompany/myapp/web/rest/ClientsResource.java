@@ -145,9 +145,6 @@ public class ClientsResource {
                 Mono<Clients> result = clientsRepository
                     .findById(clients.getId())
                     .map(existingClients -> {
-                        if (clients.getIdClient() != null) {
-                            existingClients.setIdClient(clients.getIdClient());
-                        }
                         if (clients.getNom() != null) {
                             existingClients.setNom(clients.getNom());
                         }
@@ -162,6 +159,9 @@ public class ClientsResource {
                         }
                         if (clients.getEmail() != null) {
                             existingClients.setEmail(clients.getEmail());
+                        }
+                        if (clients.getIdUser() != null) {
+                            existingClients.setIdUser(clients.getIdUser());
                         }
 
                         return existingClients;

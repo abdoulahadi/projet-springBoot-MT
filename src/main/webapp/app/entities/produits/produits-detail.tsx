@@ -32,12 +32,6 @@ export const ProduitsDetail = () => {
           </dt>
           <dd>{produitsEntity.id}</dd>
           <dt>
-            <span id="idProduit">
-              <Translate contentKey="jobMultiTiersApp.produits.idProduit">Id Produit</Translate>
-            </span>
-          </dt>
-          <dd>{produitsEntity.idProduit}</dd>
-          <dt>
             <span id="nomProduit">
               <Translate contentKey="jobMultiTiersApp.produits.nomProduit">Nom Produit</Translate>
             </span>
@@ -64,7 +58,7 @@ export const ProduitsDetail = () => {
           <dt>
             <Translate contentKey="jobMultiTiersApp.produits.categories">Categories</Translate>
           </dt>
-          <dd>{produitsEntity.categories ? produitsEntity.categories.idCategorie : ''}</dd>
+          <dd>{produitsEntity.categories ? produitsEntity.categories.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/produits" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

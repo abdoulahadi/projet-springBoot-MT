@@ -25,13 +25,12 @@ public class ClientsRowMapper implements BiFunction<Row, String, Clients> {
     public Clients apply(Row row, String prefix) {
         Clients entity = new Clients();
         entity.setId(converter.fromRow(row, prefix + "_id", Long.class));
-        entity.setIdClient(converter.fromRow(row, prefix + "_id_client", Long.class));
         entity.setNom(converter.fromRow(row, prefix + "_nom", String.class));
         entity.setPrenom(converter.fromRow(row, prefix + "_prenom", String.class));
         entity.setAdresse(converter.fromRow(row, prefix + "_adresse", String.class));
         entity.setTelephone(converter.fromRow(row, prefix + "_telephone", String.class));
         entity.setEmail(converter.fromRow(row, prefix + "_email", String.class));
-        entity.setUserId(converter.fromRow(row, prefix + "_user_id", Long.class));
+        entity.setIdUser(converter.fromRow(row, prefix + "_id_user", Long.class));
         return entity;
     }
 }

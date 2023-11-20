@@ -26,7 +26,6 @@ public class CommandesRowMapper implements BiFunction<Row, String, Commandes> {
     public Commandes apply(Row row, String prefix) {
         Commandes entity = new Commandes();
         entity.setId(converter.fromRow(row, prefix + "_id", Long.class));
-        entity.setIdCommande(converter.fromRow(row, prefix + "_id_commande", Long.class));
         entity.setDateCommande(converter.fromRow(row, prefix + "_date_commande", Instant.class));
         entity.setClientsId(converter.fromRow(row, prefix + "_clients_id", Long.class));
         entity.setProduitsId(converter.fromRow(row, prefix + "_produits_id", Long.class));

@@ -14,9 +14,6 @@
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="id_categorie" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="nom_categorie" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -41,7 +38,6 @@
                   tableName="categories"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="id_categorie" type="numeric"/>
             <column name="nom_categorie" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

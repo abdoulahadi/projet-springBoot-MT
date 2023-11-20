@@ -3,7 +3,6 @@ package com.mycompany.myapp.web.rest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.*;
 
 import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.Commandes;
@@ -18,27 +17,19 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import reactor.core.publisher.Flux;
 
 /**
  * Integration tests for the {@link CommandesResource} REST controller.
  */
 @IntegrationTest
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureWebTestClient(timeout = IntegrationTest.DEFAULT_ENTITY_TIMEOUT)
 @WithMockUser
 class CommandesResourceIT {
-
-    private static final Long DEFAULT_ID_COMMANDE = 1L;
-    private static final Long UPDATED_ID_COMMANDE = 2L;
 
     private static final Instant DEFAULT_DATE_COMMANDE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATE_COMMANDE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -51,9 +42,6 @@ class CommandesResourceIT {
 
     @Autowired
     private CommandesRepository commandesRepository;
-
-    @Mock
-    private CommandesRepository commandesRepositoryMock;
 
     @Autowired
     private EntityManager em;
@@ -70,7 +58,7 @@ class CommandesResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Commandes createEntity(EntityManager em) {
-        Commandes commandes = new Commandes().idCommande(DEFAULT_ID_COMMANDE).dateCommande(DEFAULT_DATE_COMMANDE);
+        Commandes commandes = new Commandes().dateCommande(DEFAULT_DATE_COMMANDE);
         return commandes;
     }
 
@@ -81,7 +69,7 @@ class CommandesResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Commandes createUpdatedEntity(EntityManager em) {
-        Commandes commandes = new Commandes().idCommande(UPDATED_ID_COMMANDE).dateCommande(UPDATED_DATE_COMMANDE);
+        Commandes commandes = new Commandes().dateCommande(UPDATED_DATE_COMMANDE);
         return commandes;
     }
 
@@ -121,7 +109,6 @@ class CommandesResourceIT {
         List<Commandes> commandesList = commandesRepository.findAll().collectList().block();
         assertThat(commandesList).hasSize(databaseSizeBeforeCreate + 1);
         Commandes testCommandes = commandesList.get(commandesList.size() - 1);
-        assertThat(testCommandes.getIdCommande()).isEqualTo(DEFAULT_ID_COMMANDE);
         assertThat(testCommandes.getDateCommande()).isEqualTo(DEFAULT_DATE_COMMANDE);
     }
 
@@ -170,7 +157,6 @@ class CommandesResourceIT {
         assertThat(commandesList).isNotNull();
         assertThat(commandesList).hasSize(1);
         Commandes testCommandes = commandesList.get(0);
-        assertThat(testCommandes.getIdCommande()).isEqualTo(DEFAULT_ID_COMMANDE);
         assertThat(testCommandes.getDateCommande()).isEqualTo(DEFAULT_DATE_COMMANDE);
     }
 
@@ -192,27 +178,8 @@ class CommandesResourceIT {
             .expectBody()
             .jsonPath("$.[*].id")
             .value(hasItem(commandes.getId().intValue()))
-            .jsonPath("$.[*].idCommande")
-            .value(hasItem(DEFAULT_ID_COMMANDE.intValue()))
             .jsonPath("$.[*].dateCommande")
             .value(hasItem(DEFAULT_DATE_COMMANDE.toString()));
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllCommandesWithEagerRelationshipsIsEnabled() {
-        when(commandesRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(Flux.empty());
-
-        webTestClient.get().uri(ENTITY_API_URL + "?eagerload=true").exchange().expectStatus().isOk();
-
-        verify(commandesRepositoryMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllCommandesWithEagerRelationshipsIsNotEnabled() {
-        when(commandesRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(Flux.empty());
-
-        webTestClient.get().uri(ENTITY_API_URL + "?eagerload=false").exchange().expectStatus().isOk();
-        verify(commandesRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -233,8 +200,6 @@ class CommandesResourceIT {
             .expectBody()
             .jsonPath("$.id")
             .value(is(commandes.getId().intValue()))
-            .jsonPath("$.idCommande")
-            .value(is(DEFAULT_ID_COMMANDE.intValue()))
             .jsonPath("$.dateCommande")
             .value(is(DEFAULT_DATE_COMMANDE.toString()));
     }
@@ -260,7 +225,7 @@ class CommandesResourceIT {
 
         // Update the commandes
         Commandes updatedCommandes = commandesRepository.findById(commandes.getId()).block();
-        updatedCommandes.idCommande(UPDATED_ID_COMMANDE).dateCommande(UPDATED_DATE_COMMANDE);
+        updatedCommandes.dateCommande(UPDATED_DATE_COMMANDE);
 
         webTestClient
             .put()
@@ -275,7 +240,6 @@ class CommandesResourceIT {
         List<Commandes> commandesList = commandesRepository.findAll().collectList().block();
         assertThat(commandesList).hasSize(databaseSizeBeforeUpdate);
         Commandes testCommandes = commandesList.get(commandesList.size() - 1);
-        assertThat(testCommandes.getIdCommande()).isEqualTo(UPDATED_ID_COMMANDE);
         assertThat(testCommandes.getDateCommande()).isEqualTo(UPDATED_DATE_COMMANDE);
     }
 
@@ -350,7 +314,7 @@ class CommandesResourceIT {
         Commandes partialUpdatedCommandes = new Commandes();
         partialUpdatedCommandes.setId(commandes.getId());
 
-        partialUpdatedCommandes.idCommande(UPDATED_ID_COMMANDE);
+        partialUpdatedCommandes.dateCommande(UPDATED_DATE_COMMANDE);
 
         webTestClient
             .patch()
@@ -365,8 +329,7 @@ class CommandesResourceIT {
         List<Commandes> commandesList = commandesRepository.findAll().collectList().block();
         assertThat(commandesList).hasSize(databaseSizeBeforeUpdate);
         Commandes testCommandes = commandesList.get(commandesList.size() - 1);
-        assertThat(testCommandes.getIdCommande()).isEqualTo(UPDATED_ID_COMMANDE);
-        assertThat(testCommandes.getDateCommande()).isEqualTo(DEFAULT_DATE_COMMANDE);
+        assertThat(testCommandes.getDateCommande()).isEqualTo(UPDATED_DATE_COMMANDE);
     }
 
     @Test
@@ -380,7 +343,7 @@ class CommandesResourceIT {
         Commandes partialUpdatedCommandes = new Commandes();
         partialUpdatedCommandes.setId(commandes.getId());
 
-        partialUpdatedCommandes.idCommande(UPDATED_ID_COMMANDE).dateCommande(UPDATED_DATE_COMMANDE);
+        partialUpdatedCommandes.dateCommande(UPDATED_DATE_COMMANDE);
 
         webTestClient
             .patch()
@@ -395,7 +358,6 @@ class CommandesResourceIT {
         List<Commandes> commandesList = commandesRepository.findAll().collectList().block();
         assertThat(commandesList).hasSize(databaseSizeBeforeUpdate);
         Commandes testCommandes = commandesList.get(commandesList.size() - 1);
-        assertThat(testCommandes.getIdCommande()).isEqualTo(UPDATED_ID_COMMANDE);
         assertThat(testCommandes.getDateCommande()).isEqualTo(UPDATED_DATE_COMMANDE);
     }
 

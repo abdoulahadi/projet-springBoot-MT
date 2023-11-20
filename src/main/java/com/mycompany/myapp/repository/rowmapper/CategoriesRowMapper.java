@@ -25,7 +25,6 @@ public class CategoriesRowMapper implements BiFunction<Row, String, Categories> 
     public Categories apply(Row row, String prefix) {
         Categories entity = new Categories();
         entity.setId(converter.fromRow(row, prefix + "_id", Long.class));
-        entity.setIdCategorie(converter.fromRow(row, prefix + "_id_categorie", Long.class));
         entity.setNomCategorie(converter.fromRow(row, prefix + "_nom_categorie", String.class));
         return entity;
     }
