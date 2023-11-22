@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, getSortState } from 'react-jhipster';
+import { byteSize, Translate, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 import { ASC, DESC, SORT } from 'app/shared/util/pagination.constants';
@@ -120,7 +120,11 @@ export const Produits = () => {
                   <td>{produits.nomProduit}</td>
                   <td>{produits.descriptionProduit}</td>
                   <td>{produits.prixProduit}</td>
-                  <td>{produits.imageProduit}</td>
+                  <td>
+                    {produits.imageProduit && (
+                      <img src={`${produits.imageProduit}`} alt={produits.nomProduit} style={{ maxWidth: '100%' }} />
+                    )}
+                  </td>
                   <td>{produits.categories ? <Link to={`/categories/${produits.categories.id}`}>{produits.categories.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">

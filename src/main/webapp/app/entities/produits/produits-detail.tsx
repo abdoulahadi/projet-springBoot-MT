@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+import { Translate, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
@@ -54,7 +54,11 @@ export const ProduitsDetail = () => {
               <Translate contentKey="multitiersApp.produits.imageProduit">Image Produit</Translate>
             </span>
           </dt>
-          <dd>{produitsEntity.imageProduit}</dd>
+          <dd>
+            {produitsEntity.imageProduit && (
+              <img src={`${produitsEntity.imageProduit}`} alt={produitsEntity.nomProduit} style={{ maxWidth: '100%' }} />
+            )}
+          </dd>
           <dt>
             <Translate contentKey="multitiersApp.produits.categories">Categories</Translate>
           </dt>

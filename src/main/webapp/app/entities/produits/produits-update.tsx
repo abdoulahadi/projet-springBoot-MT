@@ -27,6 +27,8 @@ export const ProduitsUpdate = () => {
   const updating = useAppSelector(state => state.produits.updating);
   const updateSuccess = useAppSelector(state => state.produits.updateSuccess);
 
+  const [imageBase64, setImageBase64] = useState<string>(''); // Précisez que l'état est de type 'string'
+
   const handleClose = () => {
     navigate('/produits');
   };
@@ -47,6 +49,26 @@ export const ProduitsUpdate = () => {
     }
   }, [updateSuccess]);
 
+  const handleImageUpload = event => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        // Le contenu de l'image en Base64 se trouve dans reader.result
+        // Vous pouvez stocker cette chaîne Base64 dans votre état local ou faire autre chose avec elle.
+        const base64Image = reader.result as string;
+        console.log(base64Image);
+
+        setImageBase64(base64Image); // Mettez à jour l'état local avec la chaîne Base64
+      };
+
+      // Lire le contenu du fichier en tant que Data URL (Base64)
+      reader.readAsDataURL(file);
+    }
+  };
+
   // eslint-disable-next-line complexity
   const saveEntity = values => {
     if (values.id !== undefined && typeof values.id !== 'number') {
@@ -59,6 +81,7 @@ export const ProduitsUpdate = () => {
     const entity = {
       ...produitsEntity,
       ...values,
+      imageProduit: imageBase64,
       categories: categories.find(it => it.id.toString() === values.categories.toString()),
     };
 
@@ -123,13 +146,23 @@ export const ProduitsUpdate = () => {
                 data-cy="prixProduit"
                 type="text"
               />
+              {/* ... Autres champs de formulaire ... */}
               <ValidatedField
                 label={translate('multitiersApp.produits.imageProduit')}
                 id="produits-imageProduit"
                 name="imageProduit"
                 data-cy="imageProduit"
-                type="text"
+                type="file"
+                onChange={event => handleImageUpload(event)}
               />
+              {/* ... Autres champs de formulaire ... */}
+              {/* <ValidatedField
+                label={translate('multitiersApp.produits.imageProduit')}
+                id="produits-imageProduit"
+                name="imageProduit"
+                data-cy="imageProduit"
+                type="text"
+              /> */}
               <ValidatedField
                 id="produits-categories"
                 name="categories"

@@ -145,7 +145,7 @@ class ProduitsResourceIT {
             .andExpect(jsonPath("$.[*].nomProduit").value(hasItem(DEFAULT_NOM_PRODUIT)))
             .andExpect(jsonPath("$.[*].descriptionProduit").value(hasItem(DEFAULT_DESCRIPTION_PRODUIT)))
             .andExpect(jsonPath("$.[*].prixProduit").value(hasItem(DEFAULT_PRIX_PRODUIT.intValue())))
-            .andExpect(jsonPath("$.[*].imageProduit").value(hasItem(DEFAULT_IMAGE_PRODUIT)));
+            .andExpect(jsonPath("$.[*].imageProduit").value(hasItem(DEFAULT_IMAGE_PRODUIT.toString())));
     }
 
     @Test
@@ -163,7 +163,7 @@ class ProduitsResourceIT {
             .andExpect(jsonPath("$.nomProduit").value(DEFAULT_NOM_PRODUIT))
             .andExpect(jsonPath("$.descriptionProduit").value(DEFAULT_DESCRIPTION_PRODUIT))
             .andExpect(jsonPath("$.prixProduit").value(DEFAULT_PRIX_PRODUIT.intValue()))
-            .andExpect(jsonPath("$.imageProduit").value(DEFAULT_IMAGE_PRODUIT));
+            .andExpect(jsonPath("$.imageProduit").value(DEFAULT_IMAGE_PRODUIT.toString()));
     }
 
     @Test

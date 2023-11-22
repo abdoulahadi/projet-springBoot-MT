@@ -30,6 +30,7 @@ public class Produits implements Serializable {
     @Column(name = "prix_produit")
     private Long prixProduit;
 
+    @Lob
     @Column(name = "image_produit")
     private String imageProduit;
 
