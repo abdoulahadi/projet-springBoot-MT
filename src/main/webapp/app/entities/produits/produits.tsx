@@ -62,6 +62,22 @@ export const Produits = () => {
       return order === ASC ? faSortUp : faSortDown;
     }
   };
+  const displayFirstImage = produit => {
+    // Vérifiez si imageProduit est défini
+    if (produit && produit.imageProduit) {
+      // Split the concatenated string into an array of image strings
+      const imagesArray = produit.imageProduit.split('*');
+
+      // Récupérez seulement le premier élément du tableau
+      const firstImage = imagesArray[0];
+
+      // Retournez l'élément img avec la première image
+      return <img src={`${firstImage}`} alt={`Image ${produit.nomProduit}`} style={{ maxWidth: '100%', marginBottom: '10px' }} />;
+    }
+
+    // Si imageProduit n'est pas défini, renvoyez un message ou un rendu alternatif
+    return <p>No images available</p>;
+  };
 
   return (
     <div>
@@ -121,9 +137,10 @@ export const Produits = () => {
                   <td>{produits.descriptionProduit}</td>
                   <td>{produits.prixProduit}</td>
                   <td>
-                    {produits.imageProduit && (
+                    {/* {produits.imageProduit && (
                       <img src={`${produits.imageProduit}`} alt={produits.nomProduit} style={{ maxWidth: '100%' }} />
-                    )}
+                    )} */}
+                    <dd>{displayFirstImage(produits)}</dd>
                   </td>
                   <td>{produits.categories ? <Link to={`/categories/${produits.categories.id}`}>{produits.categories.id}</Link> : ''}</td>
                   <td className="text-end">

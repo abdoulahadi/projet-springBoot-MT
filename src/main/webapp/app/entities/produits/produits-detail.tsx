@@ -18,6 +18,25 @@ export const ProduitsDetail = () => {
   }, []);
 
   const produitsEntity = useAppSelector(state => state.produits.entity);
+
+  const displayImages = () => {
+    // Vérifiez si imageProduit est défini
+    if (produitsEntity && produitsEntity.imageProduit) {
+      // Split the concatenated string into an array of image strings
+      const imagesArray = produitsEntity.imageProduit.split('*');
+
+      return (
+        <div>
+          {imagesArray.map((base64Image, index) => (
+            <img key={index} src={`${base64Image}`} alt={`Image ${index}`} style={{ maxWidth: '100%', marginBottom: '10px' }} />
+          ))}
+        </div>
+      );
+    }
+
+    // Si imageProduit n'est pas défini, renvoyez un message ou un rendu alternatif
+    return <p>No images available</p>;
+  };
   return (
     <Row>
       <Col md="8">
@@ -55,9 +74,10 @@ export const ProduitsDetail = () => {
             </span>
           </dt>
           <dd>
-            {produitsEntity.imageProduit && (
+            {/* {produitsEntity.imageProduit && (
               <img src={`${produitsEntity.imageProduit}`} alt={produitsEntity.nomProduit} style={{ maxWidth: '100%' }} />
-            )}
+            )} */}
+            <dd>{displayImages()}</dd>
           </dd>
           <dt>
             <Translate contentKey="multitiersApp.produits.categories">Categories</Translate>

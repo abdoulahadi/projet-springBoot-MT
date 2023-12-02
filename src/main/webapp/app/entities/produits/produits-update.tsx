@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
@@ -49,23 +49,27 @@ export const ProduitsUpdate = () => {
     }
   }, [updateSuccess]);
 
-  const handleImageUpload = event => {
-    const file = event.target.files[0];
+  const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
 
-    if (file) {
-      const reader = new FileReader();
+    if (files && files.length > 0) {
+      const newImagesArray = Array.from(files).map((file: File) => {
+        return new Promise<string>(resolve => {
+          const reader = new FileReader();
 
-      reader.onloadend = () => {
-        // Le contenu de l'image en Base64 se trouve dans reader.result
-        // Vous pouvez stocker cette chaîne Base64 dans votre état local ou faire autre chose avec elle.
-        const base64Image = reader.result as string;
-        console.log(base64Image);
+          reader.onloadend = () => {
+            const base64Image = reader.result as string;
+            // console.log(base64Image);
+            resolve(base64Image);
+          };
 
-        setImageBase64(base64Image); // Mettez à jour l'état local avec la chaîne Base64
-      };
+          reader.readAsDataURL(file);
+        });
+      });
 
-      // Lire le contenu du fichier en tant que Data URL (Base64)
-      reader.readAsDataURL(file);
+      Promise.all(newImagesArray).then(base64Images => {
+        setImageBase64(prevImages => (prevImages ? prevImages + '*' : '') + base64Images.join('*'));
+      });
     }
   };
 
@@ -153,7 +157,8 @@ export const ProduitsUpdate = () => {
                 name="imageProduit"
                 data-cy="imageProduit"
                 type="file"
-                onChange={event => handleImageUpload(event)}
+                onChange={handleImageUpload}
+                multiple // Allow multiple file selection
               />
               {/* ... Autres champs de formulaire ... */}
               {/* <ValidatedField
