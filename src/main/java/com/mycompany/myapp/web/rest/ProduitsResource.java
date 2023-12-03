@@ -1,5 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.domain.Categories;
 import com.mycompany.myapp.domain.Produits;
 import com.mycompany.myapp.repository.ProduitsRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
+
+// import reactor.core.publisher.Mono;
 
 /**
  * REST controller for managing {@link com.mycompany.myapp.domain.Produits}.
@@ -168,6 +171,19 @@ public class ProduitsResource {
         log.debug("REST request to get Produits : {}", id);
         Optional<Produits> produits = produitsRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(produits);
+    }
+
+    /**
+     * {@code GET  /produits/bycategorie/:id} : get the "id" produits.
+     *
+     * @param id the id of the produits to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the produits, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/bycategorie/{id}")
+    public List<Produits> getAllProduitsByCategoriesId(@PathVariable Long id) {
+        log.debug("REST request to get Produits : {}", id);
+        // List<Produits> produits = produitsRepository.findByCategoriesId( id);
+        return produitsRepository.findByCategoriesId(id);
     }
 
     /**

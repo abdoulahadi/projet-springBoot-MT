@@ -43,17 +43,11 @@ export const CommandesDetail = () => {
           <dt>
             <Translate contentKey="multitiersApp.commandes.clients">Clients</Translate>
           </dt>
-          {commandesEntity.clients ? (
-            <>
-              <span>{commandesEntity.clients.nom}</span>
-              <br />
-              <span>{commandesEntity.clients.prenom}</span>
-            </>
-          ) : null}
+          <dd>{commandesEntity.clients ? commandesEntity.clients.id : ''}</dd>
           <dt>
             <Translate contentKey="multitiersApp.commandes.produits">Produits</Translate>
           </dt>
-          <dd>{commandesEntity.produits?.nomProduit || ''}</dd>
+          <dd>{commandesEntity.produits ? commandesEntity.produits.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/commandes" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -1,6 +1,7 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Commandes;
+import com.mycompany.myapp.domain.Produits;
 import com.mycompany.myapp.repository.CommandesRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -159,6 +160,19 @@ public class CommandesResource {
         log.debug("REST request to get Commandes : {}", id);
         Optional<Commandes> commandes = commandesRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(commandes);
+    }
+
+    // ************
+    /**
+     * {@code GET  /commandes/byclientId/:id} : get the "id" commandes.
+     *
+     * @param id the id of the commandes to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the commandes, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/byclientId/{id}")
+    public List<Commandes> getAllCommandesByClientId(@PathVariable Long id) {
+        log.debug("REST request to get Produits : {}", id);
+        return commandesRepository.findByClientId(id);
     }
 
     /**
