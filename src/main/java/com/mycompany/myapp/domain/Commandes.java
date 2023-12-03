@@ -27,11 +27,11 @@ public class Commandes implements Serializable {
     private Instant dateCommande;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "prenom", "telephone" }, allowSetters = true)
     private Clients clients;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "categories" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "categories", "nomProduit" }, allowSetters = true)
     private Produits produits;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
