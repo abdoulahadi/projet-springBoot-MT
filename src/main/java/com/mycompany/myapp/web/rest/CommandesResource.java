@@ -176,6 +176,28 @@ public class CommandesResource {
     }
 
     /**
+     * {@code GET  /commandes/details} : get all the commandes.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of commandes in body.
+     */
+    @GetMapping("/details")
+    public List<Commandes> getAllCommandesDetails() {
+        log.debug("REST request to get all Commandes");
+        return commandesRepository.findAllDetail();
+    }
+
+    /**
+     * {@code GET  /commandes/sortByProduit} : get all the commandes.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of commandes in body.
+     */
+    @GetMapping("/sortByProduit")
+    public List<Produits> getProduitPlusPresent() {
+        log.debug("REST request to get all Commandes");
+        return commandesRepository.findProduitPlusPresent();
+    }
+
+    /**
      * {@code DELETE  /commandes/:id} : delete the "id" commandes.
      *
      * @param id the id of the commandes to delete.

@@ -15,4 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface ProduitsRepository extends JpaRepository<Produits, Long> {
     @Query("SELECT p FROM Produits p WHERE p.categories.id = :categoryId")
     List<Produits> findByCategoriesId(@Param("categoryId") Long id);
+
+    @Query("SELECT p FROM Produits p ORDER BY p.id DESC LIMIT 5")
+    List<Produits> findLimited();
 }

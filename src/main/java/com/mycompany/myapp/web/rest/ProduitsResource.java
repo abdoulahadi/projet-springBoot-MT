@@ -201,4 +201,15 @@ public class ProduitsResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    /**
+     * {@code GET  /produits} : get all the produits.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of produits in body.
+     */
+    @GetMapping("/recent")
+    public List<Produits> getLastestProduits() {
+        log.debug("REST request to get all Produits");
+        return produitsRepository.findLimited();
+    }
 }

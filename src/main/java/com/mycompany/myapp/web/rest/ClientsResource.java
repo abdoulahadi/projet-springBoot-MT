@@ -172,6 +172,18 @@ public class ClientsResource {
     }
 
     /**
+     * {@code GET  /clients/:id} : get the "id" clients.
+     *
+     * @param id the id of the clients to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the clients, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/itemset/{id}")
+    public List<Clients> getClientByUserId(@PathVariable Long id) {
+        log.debug("REST request to get Clients : {}", id);
+        return clientsRepository.findClientByUserId(id);
+    }
+
+    /**
      * {@code DELETE  /clients/:id} : delete the "id" clients.
      *
      * @param id the id of the clients to delete.
